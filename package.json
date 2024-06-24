@@ -1,0 +1,11 @@
+{
+  "name": "backend-hobbify",
+  "version": "1.0.0",
+  "description": "Backend hobbify project requiered to graduate as Full stack web developer at Henry",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Grupo 4",
+  "license": "MIT"
+}
