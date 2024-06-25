@@ -1,0 +1,2 @@
+# Esto le indicará a Git que maneje automáticamente los finales de línea apropiados para cada sistema operativo:
+* text=auto 
