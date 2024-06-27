@@ -3,10 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthzeroModule } from './authzero/authzero.module';
 import { ConfigModule } from '@nestjs/config';
-import { AppConfigModule } from './app.config.module';
+import { MongodbModule } from './mongodb/mongodb.module';
 
 @Module({
-  imports: [AuthzeroModule, AppConfigModule, ConfigModule.forRoot()],
+  imports: [AuthzeroModule, ConfigModule.forRoot(), MongodbModule],
   controllers: [AppController],
   providers: [AppService],
 })
