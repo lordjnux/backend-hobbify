@@ -9,7 +9,13 @@ const URI = `${process.env.MONGODB_HOST}+srv://${process.env.MONGODB_USER}:${pro
 
 
 const mongoConnect = async () => {
-    await mongoose.connect(URI);
+    try {
+        await mongoose.connect(URI);
+    } catch (error) {
+        console.log(error);
+        
+    }
+   
 }
 
 export {mongoConnect};
