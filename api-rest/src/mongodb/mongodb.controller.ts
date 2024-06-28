@@ -1,13 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
 import { MongodbService } from './mongodb.service';
+import { IMessage } from './interfaces/message.interface';
 
-@Controller('mongodb')
+@Controller('chats')
 export class MongodbController {
   constructor(private readonly mongodbService: MongodbService) {}
 
-  @Post()
-  create(@Body() createMongodbDto: any) {
-    return this.mongodbService.create(createMongodbDto);
+  @Post(':chatId/messages')
+  newMessage(@Body() messageData:IMessage, @Param('chatId') chatId: string): Promise<any> {
+
+    return  this.mongodbService.newMessage(chatId, messageData);
+  }
+
+  @Post(':id')
+  createChat(@Param('id') id: string) : any {
+    console.log(id);
+    
+    return this.mongodbService.createChat(id);
   }
 
   @Get()
