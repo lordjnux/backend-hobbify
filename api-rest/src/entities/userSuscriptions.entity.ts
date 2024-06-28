@@ -7,7 +7,9 @@ import {
 } from 'typeorm';
 import { UsersEntity } from './users.entity';
 
-@Entity()
+@Entity({
+  name: 'user-suscriptions',
+})
 export class UserSuscriptionEntity {
   @PrimaryGeneratedColumn('uuid')
   suscriptionId: string;

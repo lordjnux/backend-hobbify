@@ -10,7 +10,9 @@ import {
 import { SuscriptionEntity } from './suscription.entity';
 import { UsersEntity } from './users.entity';
 
-@Entity()
+@Entity({
+  name: 'payments',
+})
 export class PaymentsEntity {
   @PrimaryGeneratedColumn('uuid')
   paymentId: string;

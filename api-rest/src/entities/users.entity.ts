@@ -9,7 +9,9 @@ import {
 import { ChatsEntity } from './chats.entity';
 import { PaymentsEntity } from './payments.entity';
 
-@Entity()
+@Entity({
+  name: 'users',
+})
 export class UsersEntity {
   @PrimaryGeneratedColumn('uuid')
   userId: string;
