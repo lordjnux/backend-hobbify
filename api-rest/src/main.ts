@@ -22,11 +22,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  mongoConnect().then(() => {
-    console.log('MongoDB connected');
-  }).catch((err) => {
-    console.log(err);
-  });
+  // mongoConnect().then(() => {
+  //   console.log('MongoDB connected');
+  // }).catch((err) => {
+  //   console.log(err);
+  // });
 
 
   await app.listen(process.env.PORT);

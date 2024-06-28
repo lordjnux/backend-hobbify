@@ -6,14 +6,12 @@ import typeorm from './config/typeorm.config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { chatSchema } from './mongodb/models/chat.model';
 import { messageSchema } from './mongodb/models/message.model';
-import { AppService } from './app.service';
 import { MongodbService } from './mongodb/mongodb.service';
 import { MongodbRepository } from './mongodb/mongodb.repository';
 import { MongodbController } from './mongodb/mongodb.controller';
 
 @Module({
   imports: [
-
     ConfigModule.forRoot({
       isGlobal: true,
       load: [typeorm],
