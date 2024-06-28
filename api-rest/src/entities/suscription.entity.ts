@@ -7,8 +7,11 @@ import {
 } from 'typeorm';
 import { FeaturesEntity } from './features.entity';
 import { features } from 'process';
+import { Subscription } from 'rxjs';
 
-@Entity()
+@Entity({
+  name: 'subscription',
+})
 export class SuscriptionEntity {
   @PrimaryGeneratedColumn('uuid')
   suscriptionId: string;

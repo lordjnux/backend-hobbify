@@ -1,6 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity({
+  name: 'features',
+})
 export class FeaturesEntity {
   @PrimaryGeneratedColumn('uuid')
   featureId: string;
@@ -14,7 +16,6 @@ export class FeaturesEntity {
 
   @Column({
     type: 'text',
-    length: 200,
     nullable: false,
   })
   description: string;

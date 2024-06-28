@@ -1,5 +1,4 @@
 import { registerAs } from '@nestjs/config';
-import { DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_HOST } from './envs';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { config as dotenvConfig } from 'dotenv';
 dotenvConfig({ path: './.env.development.local' });
