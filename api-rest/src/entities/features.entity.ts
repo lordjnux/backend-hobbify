@@ -14,7 +14,6 @@ export class FeaturesEntity {
 
   @Column({
     type: 'text',
-    length: 200,
     nullable: false,
   })
   description: string;
