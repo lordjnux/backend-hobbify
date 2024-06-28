@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import typeorm from './config/typeorm.config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { chatSchema } from './mongodb/models/chat.model';
@@ -34,6 +35,7 @@ import { MongodbController } from './mongodb/mongodb.controller';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => config.get('typeorm'),
     }),
+    CloudinaryModule,
   ],
   controllers: [MongodbController],
   providers: [MongodbService, MongodbRepository],

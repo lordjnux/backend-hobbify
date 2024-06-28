@@ -1,4 +1,10 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UsersEntity } from './users.entity';
 
 @Entity({
@@ -16,5 +22,6 @@ export class CredentialsEntity {
   password: string;
 
   @OneToOne(() => UsersEntity, (user) => user.email)
+  @JoinColumn({ name: 'email' })
   email: UsersEntity;
 }

@@ -1,4 +1,4 @@
-import { Controller, Body, Get } from '@nestjs/common';
+import { Controller, Body, Post } from '@nestjs/common';
 import { AuthOwnService } from './auth-own.service';
 import { CredentialsDto } from '../dtos/auth-own/credentials-auth-own.dto';
 import {
@@ -10,12 +10,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-@Controller('auth-own')
-@ApiTags('auth-own')
+@Controller('authown')
+@ApiTags('authown')
 export class AuthOwnController {
   constructor(private readonly authOwnService: AuthOwnService) {}
 
-  @Get("login")
+  @Post("login")
   @ApiOperation({ summary: 'Method to login througth own system of hobbify' })
   @ApiResponse({
     status: 200,

@@ -5,7 +5,7 @@ import { UsersEntity } from './users.entity';
   name: 'chats',
 })
 export class ChatsEntity {
-  @PrimaryColumn()
+  @PrimaryColumn('uuid')
   chatId: string;
 
   @Column({
