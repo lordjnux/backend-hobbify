@@ -11,10 +11,6 @@ export class CloudinaryService {
     file: Express.Multer.File,
   ): Promise<CloudinaryDto> {
     const result = await this.cloudinaryRepository.uploadImageCloudinary(file);
-    console.log('service:result:');
-    console.log(result);
-    console.log(plainToClass(CloudinaryDto, result));
-
     return plainToClass(CloudinaryDto, result);
   }
 }

@@ -33,9 +33,9 @@ export class CloudinaryController {
       },
     },
   })
-//   @Post('uploadImage/:id')
+  //   @Post('uploadImage/:id')
   @Post('uploadImage')
-//   @UseGuards(AuthGuard)
+  //   @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('image'))
   async uploadImage(
     // @Param('id', ParseUUIDPipe) id: string,
@@ -54,8 +54,6 @@ export class CloudinaryController {
     )
     file: Express.Multer.File,
   ) {
-    console.log(file);
-
     return await this.cloudinaryService.uploadImageCloudinary(file);
   }
 }
