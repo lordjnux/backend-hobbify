@@ -1,9 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { MongodbRepository } from './mongodb.repository';
+import { IMessage } from './interfaces/message.interface';
 
 @Injectable()
 export class MongodbService {
-  create(createMongodbDto: any) {
-    return 'This action adds a new mongodb';
+  constructor(private readonly mongodbRepository: MongodbRepository) {}
+
+  newMessage(chatId, messageData:IMessage) {
+    return this.mongodbRepository.newMessage(chatId,messageData)
+  }
+  createChat(id: string)  {
+    return this.mongodbRepository.createChat(id)
   }
 
   findAll() {

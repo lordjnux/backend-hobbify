@@ -1,20 +1,21 @@
 import { registerAs } from '@nestjs/config';
 import { DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_HOST } from './envs';
 import { DataSource, DataSourceOptions } from 'typeorm';
+import { config as dotenvConfig } from 'dotenv';
+dotenvConfig({ path: './.env.development.local' });
 
 const config = {
   type: 'postgres',
-  database: DB_NAME,
-  host: DB_HOST,
-  port: Number(DB_PORT),
-  username: DB_USERNAME,
-  password: DB_PASSWORD,
-  entities: [],
-  migrations: [],
+  url: process.env.POSTGRESDB_URL,
+  entities: ['dist/*/.entity{.ts,.js}'],
+  migrations: ['dist/migrations/*{.ts,.js}'],
   autoLoadEntities: true,
   logging: false,
   synchronize: true,
   // dropSchema: true,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 };
 
 export default registerAs('typeorm', () => config);
