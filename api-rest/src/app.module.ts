@@ -4,9 +4,15 @@ import { AppService } from './app.service';
 import { AuthzeroModule } from './authzero/authzero.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongodbModule } from './mongodb/mongodb.module';
+import { AuthOwnModule } from './auth-own/auth-own.module';
 
 @Module({
-  imports: [AuthzeroModule, ConfigModule.forRoot(), MongodbModule],
+  imports: [
+    AuthzeroModule,
+    AuthOwnModule,
+    ConfigModule.forRoot(),
+    MongodbModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
