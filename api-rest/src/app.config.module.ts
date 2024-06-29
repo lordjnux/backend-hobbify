@@ -9,7 +9,6 @@ import { messageSchema } from './mongodb/models/message.model';
 import { MongodbService } from './mongodb/mongodb.service';
 import { MongodbRepository } from './mongodb/mongodb.repository';
 import { MongodbController } from './mongodb/mongodb.controller';
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -18,9 +17,8 @@ import { MongodbController } from './mongodb/mongodb.controller';
     }),
 
     MongooseModule.forRootAsync({
-      imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: `mongodb+srv://${configService.get('MONGODB_USER')}:${configService.get('MONGODB_PASSWORD')}@${configService.get('MONGODB_CLUSTER')}.jafvbnl.mongodb.net/${configService.get('MONGODB_DATABASE')}?retryWrites=true&w=majority&appName=Micluster`,
+        uri: configService.get('MONGODB_URI'),
       }),
       inject: [ConfigService],
     }),
