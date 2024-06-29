@@ -1,6 +1,6 @@
 import { registerAs } from '@nestjs/config';
-import { config as dotenvConfig } from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
+import { config as dotenvConfig } from 'dotenv';
 dotenvConfig({ path: './.env.development.local' });
 
 const config = {
