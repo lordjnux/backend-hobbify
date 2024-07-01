@@ -26,8 +26,9 @@ export class UsersEntity {
 
   @Column({
     type: 'varchar',
-    length: 60,
+    length: 255,
     nullable: false,
+    select: false,
   })
   password: string;
 
@@ -47,7 +48,7 @@ export class UsersEntity {
 
   @Column({
     type: 'int',
-    nullable: false,
+    nullable: true,
   })
   phone: string;
 
