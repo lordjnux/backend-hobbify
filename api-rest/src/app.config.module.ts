@@ -9,6 +9,12 @@ import { messageSchema } from './mongodb/models/message.model';
 import { MongodbService } from './mongodb/mongodb.service';
 import { MongodbRepository } from './mongodb/mongodb.repository';
 import { MongodbController } from './mongodb/mongodb.controller';
+import { UsersModule } from './users/users.module';
+import { UsersEntity } from './entities/users.entity';
+import { ChatsEntity } from './entities/chats.entity';
+import { PaymentsEntity } from './entities/payments.entity';
+import { SuscriptionEntity } from './entities/suscription.entity';
+import { FeaturesEntity } from './entities/features.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -31,7 +37,15 @@ import { MongodbController } from './mongodb/mongodb.controller';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => config.get('typeorm'),
     }),
+    TypeOrmModule.forFeature([
+      UsersEntity,
+      ChatsEntity,
+      PaymentsEntity,
+      SuscriptionEntity,
+      FeaturesEntity,
+    ]),
     CloudinaryModule,
+    UsersModule,
   ],
   controllers: [MongodbController],
   providers: [MongodbService, MongodbRepository],

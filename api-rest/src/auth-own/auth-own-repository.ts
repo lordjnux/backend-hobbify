@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { UserMockEntity, usersMock } from './usersMock';
 import { ResponseRepositories } from 'src/util/response-repositories';
-import { CredentialsDto } from 'src/dtos/auth-own/credentials-auth-own.dto';
+import { Repository } from 'typeorm';
+import { UsersEntity } from '../entities/users.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthOwnRepository {
@@ -11,13 +12,18 @@ export class AuthOwnRepository {
     data: undefined,
   };
 
+  constructor(
+    @InjectRepository(UsersEntity)
+    private usersRepository: Repository<UsersEntity>,
+  ) {}
+
   async getUserByEmail(email: string): Promise<ResponseRepositories> {
     this.responseRepositories = new ResponseRepositories();
     try {
-      //TODO: REEMPLAZAR ESTA FUENTE DE DATOS POR LA DE LA BASE DE DATOS
-      const result: UserMockEntity = await usersMock.filter(
-        (user: UserMockEntity) => user.email == email,
-      )[0];
+      const result = await this.usersRepository.findOneBy({
+        email,
+      });
+
       this.responseRepositories.data = result ?? undefined;
     } catch (error: any) {
       console.error(error);

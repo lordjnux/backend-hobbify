@@ -1,13 +1,5 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { FeaturesEntity } from './features.entity';
-import { features } from 'process';
-import { Subscription } from 'rxjs';
 
 @Entity({
   name: 'subscription',
@@ -25,9 +17,8 @@ export class SuscriptionEntity {
   @Column()
   duration: number;
 
+  // TODO: Creo que debe ser una relación uno(suscripción) a muchos(features) -> OneToMany
+  // TODO: También creo que acá en SuscriptionEntity, el campo debe ser un array: ej: featureIds: FeaturesEntity[];
   @OneToOne(() => FeaturesEntity, (features) => features.featureId)
-  @JoinColumn({
-    name: 'featureId',
-  })
   featureId: FeaturesEntity;
 }

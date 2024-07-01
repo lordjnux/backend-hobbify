@@ -1,8 +1,6 @@
-import { Subscription } from 'rxjs';
 import {
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -27,14 +25,8 @@ export class PaymentsEntity {
   method: string;
 
   @ManyToOne(() => UsersEntity, (user) => user.payments)
-  @JoinColumn({
-    name: 'userId',
-  })
   user: UsersEntity;
 
   @OneToOne(() => SuscriptionEntity, (suscription) => suscription.suscriptionId)
-  @JoinColumn({
-    name: 'suscriptionId',
-  })
   suscription: SuscriptionEntity;
 }

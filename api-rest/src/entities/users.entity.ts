@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ChatsEntity } from './chats.entity';
 import { PaymentsEntity } from './payments.entity';
 
@@ -41,29 +34,26 @@ export class UsersEntity {
   @Column({
     type: 'varchar',
     length: 30,
+    nullable: true,
   })
   city: string;
 
   @Column({
     type: 'varchar',
     length: 30,
+    nullable: true,
   })
   country: string;
 
   @Column({
     type: 'int',
+    nullable: false,
   })
   phone: string;
 
-  @OneToMany(() => ChatsEntity, (chats) => chats.chatId)
-  @JoinColumn({
-    name: 'chats',
-  })
+  @OneToMany(() => ChatsEntity, (chat) => chat.user)
   chats: ChatsEntity[];
 
   @OneToMany(() => PaymentsEntity, (payments) => payments.user)
-  @JoinColumn({
-    name: 'payments',
-  })
   payments: PaymentsEntity[];
 }
