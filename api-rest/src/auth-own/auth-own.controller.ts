@@ -16,7 +16,7 @@ export class AuthOwnController {
   constructor(private readonly authOwnService: AuthOwnService) {}
 
   @Post('login')
-  @ApiOperation({ summary: 'Method to login througth own system of hobbify' })
+  @ApiOperation({ summary: 'Method to login througth own aaaaaaasystem of hobbify' })
   @ApiBody({ description: 'Credentials to acces', type: LoginUserDto })
   login(@Body() credentials: LoginUserDto) {
     // TODO: IMPLEMENTAR INTERCEPTOR PARA VALIDACION DE FORMATOS CORRECTOS EN EMAIL Y PASSWORD

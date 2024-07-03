@@ -15,6 +15,9 @@ import { ChatsEntity } from './entities/chats.entity';
 import { PaymentsEntity } from './entities/payments.entity';
 import { SuscriptionEntity } from './entities/suscription.entity';
 import { FeaturesEntity } from './entities/features.entity';
+import { MongodbModule } from './mongodb/mongodb.module';
+console.log(process.env.MONGODB_URI);
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -46,6 +49,7 @@ import { FeaturesEntity } from './entities/features.entity';
     ]),
     CloudinaryModule,
     UsersModule,
+    MongodbModule
   ],
   controllers: [MongodbController],
   providers: [MongodbService, MongodbRepository],

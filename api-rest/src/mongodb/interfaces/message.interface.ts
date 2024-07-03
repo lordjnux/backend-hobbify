@@ -1,3 +1,4 @@
+
 import { Type } from "../enums/type.enum";
 
 export interface IMessage extends Document{
