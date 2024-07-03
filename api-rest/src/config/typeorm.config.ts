@@ -6,12 +6,12 @@ dotenvConfig({ path: './.env.development.local' });
 const config = {
   type: 'postgres',
   url: process.env.POSTGRESDB_URL,
-  entities: ['dist/**/.entity{.ts,.js}'],
+  entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
-  autoLoadEntities: true,
+  autoLoadEntities: false,
   logging: true,
   synchronize: true,
-  dropSchema: false,
+  // dropSchema: true,
   ssl: {
     rejectUnauthorized: false,
   },
