@@ -6,7 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongodbModule } from './mongodb/mongodb.module';
 import { AuthOwnModule } from './auth-own/auth-own.module';
 import { AppConfigModule } from './app.config.module';
-import { NotificationService } from './notifications/notifications.service';
+import { NotificationService } from './notifications/notifications.controller';
 
 @Module({
   imports: [
