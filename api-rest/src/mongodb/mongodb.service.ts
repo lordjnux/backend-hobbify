@@ -13,19 +13,34 @@ export class MongodbService {
     return this.mongodbRepository.createChat(id)
   }
 
-  findAll() {
-    return `This action returns all mongodb`;
+  addReaction(messageId, reactions) {
+    return this.mongodbRepository.addReaction(messageId, reactions)
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} mongodb`;
+  getChats() {
+    return this.mongodbRepository.getChats();
   }
 
-  update(id: number, updateMongodbDto: any) {
-    return `This action updates a #${id} mongodb`;
+  getChatMessages(chatId) {
+    return this.mongodbRepository.getChatMessages(chatId)
+
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} mongodb`;
+  getUserMessages(email) {
+    return this.mongodbRepository.getUserMessages(email)
+
+  }
+
+  deleteChat(chatId) {
+    return this.mongodbRepository.deleteChat(chatId)
+
+  }
+
+ deleteMessage(messageId) {
+       return this.mongodbRepository.deleteMessage(messageId)
+  }
+
+ putMessage(messageId, messageData) {
+       return this.mongodbRepository.putMessage(messageId, messageData)
   }
 }
