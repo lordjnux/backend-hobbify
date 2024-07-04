@@ -10,7 +10,7 @@ const config = {
   migrations: ['dist/migrations/*{.ts,.js}'],
   autoLoadEntities: false,
   logging: true,
-  synchronize: true,
+  synchronize: false,
   dropSchema: false,
   ssl: {
     rejectUnauthorized: false,
