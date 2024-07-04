@@ -16,16 +16,10 @@ export class HobbiesEntity {
   name: string;
 
   @Column({
-<<<<<<< HEAD
     type: 'varchar',
-  })
-  emoji: string;
-=======
-    type: 'text',
   })
   emoji: string;
 
   @ManyToMany(() => UsersEntity, (users) => users.hobbies)
   orderDetails: UserMockEntity[];
->>>>>>> 7e501cd2e5886239fe2a280b12ece4cf5c88c5b5
 }
