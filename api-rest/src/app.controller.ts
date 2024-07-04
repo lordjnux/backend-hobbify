@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthGuard } from './authzero/auth/auth.guard';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { HobbyDto } from './dtos/hobby.dto';
+import { HobbieDto } from './dtos/hobbie.dto';
 
 @Controller()
 @ApiTags('Root')
@@ -31,8 +31,8 @@ export class AppController {
     status: 201,
     description: 'Hobbie creado satisfactoriamente.',
   })
-  @ApiBody({ description: 'Item data', type: HobbyDto })
-  create(@Body() createItemDto: HobbyDto) {
+  @ApiBody({ description: 'Item data', type: HobbieDto })
+  create(@Body() createItemDto: HobbieDto) {
     return createItemDto;
   }
 }

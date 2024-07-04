@@ -15,8 +15,7 @@ export class HobbiesEntity {
   name: string;
 
   @Column({
-    type: 'text',
-    // default: 'url',
+    type: 'varchar',
   })
-  imgUrl: string;
+  emoji: string;
 }

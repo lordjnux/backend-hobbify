@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongodbModule } from './mongodb/mongodb.module';
 import { AuthOwnModule } from './auth-own/auth-own.module';
 import { AppConfigModule } from './app.config.module';
+import { HobbiesModule } from './hobbies/hobbies.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AppConfigModule } from './app.config.module';
     AuthOwnModule,
     ConfigModule.forRoot(),
     MongodbModule,
+    HobbiesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
