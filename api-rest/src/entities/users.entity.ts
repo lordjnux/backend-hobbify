@@ -1,6 +1,14 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ChatsEntity } from './chats.entity';
 import { PaymentsEntity } from './payments.entity';
+import { HobbiesEntity } from './hobbies.entity';
 
 @Entity({
   name: 'users',
@@ -57,4 +65,8 @@ export class UsersEntity {
 
   @OneToMany(() => PaymentsEntity, (payments) => payments.user)
   payments: PaymentsEntity[];
+
+  @ManyToMany(() => HobbiesEntity)
+  @JoinTable()
+  hobbies: HobbiesEntity[];
 }

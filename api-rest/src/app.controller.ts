@@ -1,8 +1,7 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthGuard } from './authzero/auth/auth.guard';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { HobbyDto } from './dtos/hobby.dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller()
 @ApiTags('Root')
@@ -23,16 +22,5 @@ export class AppController {
   })
   getEjemploPrivado(): string {
     return this.appService.getEjemploPrivado();
-  }
-
-  @Post()
-  @ApiOperation({ summary: 'Ejemplo de un post' })
-  @ApiResponse({
-    status: 201,
-    description: 'Hobbie creado satisfactoriamente.',
-  })
-  @ApiBody({ description: 'Item data', type: HobbyDto })
-  create(@Body() createItemDto: HobbyDto) {
-    return createItemDto;
   }
 }

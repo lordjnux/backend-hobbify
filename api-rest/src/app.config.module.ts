@@ -16,6 +16,7 @@ import { PaymentsEntity } from './entities/payments.entity';
 import { SuscriptionEntity } from './entities/suscription.entity';
 import { FeaturesEntity } from './entities/features.entity';
 import { MongodbModule } from './mongodb/mongodb.module';
+import { HobbiesModule } from './hobbies/hobbies.module';
 console.log(process.env.MONGODB_URI);
 
 @Module({
@@ -49,7 +50,8 @@ console.log(process.env.MONGODB_URI);
     ]),
     CloudinaryModule,
     UsersModule,
-    MongodbModule
+    MongodbModule,
+    HobbiesModule
   ],
   controllers: [MongodbController],
   providers: [MongodbService, MongodbRepository],

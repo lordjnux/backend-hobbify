@@ -1,14 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { UserMockEntity } from 'src/auth-own/usersMock';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { UsersEntity } from './users.entity';
 
 @Entity({
   name: 'hobbies',
 })
 export class HobbiesEntity {
-  @PrimaryGeneratedColumn('uuid')
-  hobbieId: string;
+  @PrimaryGeneratedColumn()
+  hobbieId: number;
 
   @Column({
-    type: 'varchar',
     length: 100,
     nullable: false,
   })
@@ -16,7 +17,9 @@ export class HobbiesEntity {
 
   @Column({
     type: 'text',
-    // default: 'url',
   })
-  imgUrl: string;
+  emoji: string;
+
+  @ManyToMany(() => UsersEntity, (users) => users.hobbies)
+  orderDetails: UserMockEntity[];
 }
