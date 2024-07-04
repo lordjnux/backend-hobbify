@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from 'src/entities/users.entity';
@@ -52,17 +53,12 @@ export class UsersRepository {
       signInUser.password = hashPass;
       const userToSave = plainToClass(UsersEntity, signInUser);
 
-      const userCreated = await this.usersRepository.save(userToSave);
-
-      const userWithoutPassword = {
-        ...userCreated,
-        password: undefined,
-        confirmPassword: undefined,
-      };
+      const userSaved = await this.usersRepository.save(userToSave);
+      const getAllDataUserSaved = await this.findByIdUser(userSaved.userId);
 
       this.responseRepositories.data = plainToClass(
         UsersEntity,
-        userWithoutPassword,
+        getAllDataUserSaved,
       );
     } catch (error: any) {
       console.error(error);
@@ -77,11 +73,44 @@ export class UsersRepository {
     }
   }
 
+  async findByIdUser(userId: string) {
+    try {
+      const result = await this.usersRepository.findOne({
+        select: {
+          userId: true,
+          email: true,
+          password: false,
+          username: true,
+          city: true,
+          country: true,
+          phone: true,
+        },
+        where: { userId },
+        relations: {
+          hobbies: true,
+          chats: true,
+          payments: true,
+        },
+      });
+      return result;
+    } catch (error: any) {
+      console.error(error);
+      return null;
+    }
+  }
+
   async findByEmail(email: string): Promise<ResponseRepositories> {
     this.responseRepositories = new ResponseRepositories();
     try {
-      const result = await this.usersRepository.findOneBy({
-        email,
+      const result = await this.usersRepository.findOne({
+        where: {
+          email,
+        },
+        relations: {
+          hobbies: true,
+          chats: true,
+          payments: true,
+        },
       });
 
       this.responseRepositories.data = result ?? undefined;
@@ -116,9 +145,39 @@ export class UsersRepository {
         where: {
           email: credentials.email,
         },
+        relations: {
+          hobbies: true,
+          chats: true,
+          payments: true,
+        },
       });
       this.responseRepositories.data = result ?? undefined;
     } catch (error: any) {
+      console.error(error);
+
+      this.responseRepositories = {
+        error: true,
+        message: error.message,
+        data: error,
+      };
+    } finally {
+      return this.responseRepositories;
+    }
+  }
+
+  async UpdateUser(id: string, updateUserDto: Partial<UsersEntity>) {
+    this.responseRepositories = new ResponseRepositories();
+    try {
+      const user = await this.usersRepository.findOneBy({ userId: id });
+      if (!user) throw new NotFoundException(`User(${id}) not found.`);
+
+      const updatedUser = Object.assign(user, updateUserDto);
+      this.responseRepositories.data =
+        await this.usersRepository.save(updatedUser);
+
+      console.log('userUpdated...');
+      console.log(updatedUser);
+    } catch (error) {
       console.error(error);
 
       this.responseRepositories = {

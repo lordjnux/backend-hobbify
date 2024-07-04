@@ -9,8 +9,14 @@ import {
   Matches,
   IsInt,
   IsOptional,
+  IsArray,
+  ArrayMinSize,
+  ValidateNested,
 } from 'class-validator';
-import { MatchPassword } from 'src/decorators/matchPassword.decorator';
+import { MatchPassword } from '../decorators/matchPassword.decorator';
+import { HobbiesEntity } from '../entities/hobbies.entity';
+import { Type } from 'class-transformer';
+import { PartialHobbyDto } from './hobby.dto';
 
 export class CreateUserDto {
   /**
@@ -173,7 +179,7 @@ export class UpdateUserDto {
   @ApiProperty()
   @IsOptional()
   @IsInt()
-  phone: number;
+  phone: string;
 
   /**
    * Country name. (Is optional)
@@ -196,4 +202,11 @@ export class UpdateUserDto {
   @MinLength(5)
   @MaxLength(20)
   city: string;
+
+  @ApiProperty({ type: [HobbiesEntity] })
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => HobbiesEntity)
+  hobbies: HobbiesEntity[];
 }
