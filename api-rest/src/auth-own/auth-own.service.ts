@@ -3,10 +3,11 @@ import {
   NotFoundException,
   // , NotFoundException
 } from '@nestjs/common';
-import { CredentialsDto } from '../dtos/auth-own/credentials-auth-own.dto';
-import { AuthOwnRepository } from './auth-own-repository';
 import { ResponseRepositories } from '../../src/util/response-repositories';
 import { ResponseToControllers } from '../../src/util/response-controllers';
+import { UsersRepository } from '../users/users.repository';
+import { CreateUserDto, LoginUserDto } from '../dtos/user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthOwnService {
@@ -16,19 +17,22 @@ export class AuthOwnService {
     data: undefined,
   };
 
-  constructor(private readonly authOwnRepository: AuthOwnRepository) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
-  async login(credentials: CredentialsDto): Promise<ResponseToControllers> {
-    const { email } = credentials;
+  async signIn(signInUser: CreateUserDto) {
+    return await this.usersRepository.signIn(signInUser);
+  }
 
+  async login(credentials: LoginUserDto): Promise<ResponseToControllers> {
     const existsUser: ResponseRepositories =
-      await this.authOwnRepository.getUserByEmail(email);
+      await this.usersRepository.findByCredentials(credentials);
 
-    if (
-      existsUser.error ||
-      !existsUser.data ||
-      existsUser.data.password != credentials.password // TODO: Integrar bcrypt.compare
-    )
+    const isValidCredentials = await bcrypt.compare(
+      credentials.password,
+      existsUser.data.password,
+    );
+
+    if (existsUser.error || !existsUser.data || !isValidCredentials)
       throw new NotFoundException('Invalid credentials.');
 
     return {

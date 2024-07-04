@@ -1,6 +1,5 @@
 import { Controller, Body, Post } from '@nestjs/common';
 import { AuthOwnService } from './auth-own.service';
-import { CredentialsDto } from '../dtos/auth-own/credentials-auth-own.dto';
 import {
   ApiBody,
   ApiInternalServerErrorResponse,
@@ -9,26 +8,28 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { CreateUserDto, LoginUserDto } from '../dtos/user.dto';
 
 @Controller('authown')
 @ApiTags('authown')
 export class AuthOwnController {
   constructor(private readonly authOwnService: AuthOwnService) {}
 
-  @Post("login")
-  @ApiOperation({ summary: 'Method to login througth own system of hobbify' })
-  @ApiResponse({
-    status: 200,
-    description: 'Credentials sent are ok',
-  })
-  @ApiNotFoundResponse({ status: 404, description: 'Invalid credentials' })
-  @ApiInternalServerErrorResponse({
-    status: 500,
-    description: 'Some internal errors from backend server',
-  })
-  @ApiBody({ description: 'Credentials to acces', type: CredentialsDto })
-  login(@Body() credentials: CredentialsDto) {
+  @Post('login')
+  @ApiOperation({ summary: 'Method to login througth own aaaaaaasystem of hobbify' })
+  @ApiBody({ description: 'Credentials to acces', type: LoginUserDto })
+  login(@Body() credentials: LoginUserDto) {
     // TODO: IMPLEMENTAR INTERCEPTOR PARA VALIDACION DE FORMATOS CORRECTOS EN EMAIL Y PASSWORD
     return this.authOwnService.login(credentials);
+  }
+
+  @Post('signin')
+  @ApiOperation({ summary: 'Method to create new user' })
+  @ApiBody({
+    description: 'Information to create new user',
+    type: CreateUserDto,
+  })
+  async signIn(@Body() signInUser: CreateUserDto) {
+    return await this.authOwnService.signIn(signInUser);
   }
 }
