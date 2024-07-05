@@ -4,26 +4,25 @@ import { CreateHobbyDto, UpdateHobbyDto } from '../dtos/hobby.dto';
 
 @Injectable()
 export class HobbiesService {
+  constructor(private readonly hobbiesRepository: HobbiesRepository) {}
 
-  constructor(private readonly hobbiesRespository:HobbiesRepository){}
-
-  async create(createHobbyDto: CreateHobbyDto) {
-    return await this.hobbiesRespository.newHobby(createHobbyDto);
+  async createHobbie(createHobbyDto: CreateHobbyDto) {
+    return await this.hobbiesRepository.createHobbie(createHobbyDto);
   }
 
-  findAll() {
-    return `This action returns all hobbies`;
+  async findAllHobbies() {
+    return await this.hobbiesRepository.findAllHobbies();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} hobby`;
+  async findOneHobbie(id: number) {
+    return await this.hobbiesRepository.findOneHobbie(id);
   }
 
-  update(id: number, updateHobbyDto: UpdateHobbyDto) {
-    return `This action updates a #${id} hobby`;
+  async updateHobbie(id: number, updateHobbyDto: UpdateHobbyDto) {
+    return await this.hobbiesRepository.updateHobbie(id, updateHobbyDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} hobby`;
+  async removeHobbie(id: number) {
+    return await this.hobbiesRepository.removeHobbie(id);
   }
 }

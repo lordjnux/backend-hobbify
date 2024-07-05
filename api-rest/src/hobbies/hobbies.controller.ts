@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { HobbiesService } from './hobbies.service';
 import { CreateHobbyDto, UpdateHobbyDto } from '../dtos/hobby.dto';
@@ -18,26 +19,26 @@ export class HobbiesController {
 
   @Post()
   create(@Body() createHobbyDto: CreateHobbyDto) {
-    return this.hobbiesService.create(createHobbyDto);
+    return this.hobbiesService.createHobbie(createHobbyDto);
   }
 
   @Get()
   findAll() {
-    return this.hobbiesService.findAll();
+    return this.hobbiesService.findAllHobbies();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.hobbiesService.findOne(+id);
+    return this.hobbiesService.findOneHobbie(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateHobbyDto: UpdateHobbyDto) {
-    return this.hobbiesService.update(+id, updateHobbyDto);
+    return this.hobbiesService.updateHobbie(+id, updateHobbyDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.hobbiesService.remove(+id);
+    return this.hobbiesService.removeHobbie(+id);
   }
 }

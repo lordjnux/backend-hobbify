@@ -16,7 +16,7 @@ export class HobbiesEntity {
   name: string;
 
   @Column({
-    type: 'text',
+    type: 'varchar',
   })
   emoji: string;
 
