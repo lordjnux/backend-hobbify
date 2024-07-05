@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Put }
 import { MongodbService } from './mongodb.service';
 import { IMessage } from './interfaces/message.interface';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { MessageDto, PutMessage } from './dtos/message.dto';
+import { ReactionDto } from './dtos/reaction.dto';
 
 @Controller('chats')
 @ApiTags('chats')
@@ -43,7 +45,7 @@ export class MongodbController {
   @Post('messages/reaction/:messageId')
   @ApiOperation({ summary: 'Method to add reaction to message' })
   @ApiParam({ name: 'messageId', type: String, description: 'Id of message' })
-  addReaction(@Param('messageId') messageId: string, @Body() reaction) {
+  addReaction(@Param('messageId') messageId: string, @Body() reaction: ReactionDto) {
     const {reactions} = reaction
     
     return this.mongodbService.addReaction(messageId, reactions)
@@ -53,7 +55,7 @@ export class MongodbController {
   @Post('messages/:chatId')
   @ApiOperation({ summary: 'Method to send new message' })
   @ApiParam({ name: 'chatId', type: String })
-  @ApiBody({ description: 'Message to send' })
+  @ApiBody({ description: 'Message to send', type: MessageDto })
   newMessage(@Body() messageData:IMessage, @Param('chatId') chatId: string): Promise<any> {
 
     return  this.mongodbService.newMessage(chatId, messageData);
@@ -62,7 +64,7 @@ export class MongodbController {
   @Put('messages/:messageId')
   @ApiOperation({ summary: 'Method to put a message' })
   @ApiParam({ name: 'messageId', type: String, description: 'Id of message' })
-  putMessage(@Body() messageData: IMessage,@Param('messageId') messageId: string) {
+  putMessage(@Body() messageData: PutMessage,@Param('messageId') messageId: string) {
 
     return this.mongodbService.putMessage(messageId, messageData)
 
