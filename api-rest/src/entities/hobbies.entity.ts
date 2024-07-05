@@ -21,5 +21,5 @@ export class HobbiesEntity {
   emoji: string;
 
   @ManyToMany(() => UsersEntity, (users) => users.hobbies)
-  orderDetails: UserMockEntity[];
+  users: UserMockEntity[];
 }
