@@ -10,13 +10,11 @@ import {
   IsInt,
   IsOptional,
   IsArray,
-  ArrayMinSize,
   ValidateNested,
 } from 'class-validator';
 import { MatchPassword } from '../decorators/matchPassword.decorator';
 import { HobbiesEntity } from '../entities/hobbies.entity';
 import { Type } from 'class-transformer';
-import { PartialHobbyDto } from './hobby.dto';
 
 export class CreateUserDto {
   /**
