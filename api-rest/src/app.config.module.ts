@@ -18,6 +18,7 @@ import { FeaturesEntity } from './entities/features.entity';
 import { MongodbModule } from './mongodb/mongodb.module';
 import { HobbiesModule } from './hobbies/hobbies.module';
 import { StripeModule } from './stripe/stripe.module';
+import { SocketModule } from './socket/socket.module';
 console.log(process.env.MONGODB_URI);
 
 @Module({
@@ -53,7 +54,8 @@ console.log(process.env.MONGODB_URI);
     UsersModule,
     MongodbModule,
     HobbiesModule,
-    StripeModule
+    StripeModule,
+    SocketModule,
   ],
   controllers: [MongodbController],
   providers: [MongodbService, MongodbRepository],
