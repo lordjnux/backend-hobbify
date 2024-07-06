@@ -11,9 +11,7 @@ import { Server, Socket } from 'socket.io';
 
 dotenvConfig({ path: './.env.development.local' });
 
-@WebSocketGateway(parseInt(process.env.SOCKET_PORT), {
-  cors: { origin: '*' },
-})
+@WebSocketGateway({ cors: { origin: '*' } })
 export class SocketGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
