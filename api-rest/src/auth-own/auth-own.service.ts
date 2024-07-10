@@ -7,6 +7,7 @@ import { ResponseRepositories } from '../../src/util/response-repositories';
 import { ResponseToControllers } from '../../src/util/response-controllers';
 import { UsersRepository } from '../users/users.repository';
 import { CreateUserDto, LoginUserDto } from '../dtos/user.dto';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -15,9 +16,12 @@ export class AuthOwnService {
     error: false,
     message: '',
     data: undefined,
-  };
+  }
 
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,  
+    private readonly jwtService: JwtService
+  ) {}
 
   async signIn(signInUser: CreateUserDto) {
     return await this.usersRepository.signIn(signInUser);
@@ -35,10 +39,17 @@ export class AuthOwnService {
     if (existsUser.error || !existsUser.data || !isValidCredentials)
       throw new NotFoundException('Invalid credentials.');
 
+    const userPayload = {
+      id: existsUser.data.id,
+      email: existsUser.data.email,
+      isAdmin: existsUser.data.isAdmin,
+    };
+    const token = this.jwtService.sign(userPayload);
+
     return {
       status: 200,
-      message: 'Credentials is valid',
-      data: existsUser.data,
+      message: 'Credentials is valid, succesful login',
+      data: token
     };
   }
 }

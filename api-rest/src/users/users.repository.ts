@@ -179,7 +179,6 @@ export class UsersRepository {
       console.log(updatedUser);
     } catch (error) {
       console.error(error);
-
       this.responseRepositories = {
         error: true,
         message: error.message,
