@@ -1,0 +1,47 @@
+[
+  {
+    "username": "Robert Fischer",
+    "email": "robert.fischer@mailFake.com",
+    "password": "Secure17$",
+    "confirmPassword": "Secure17$",
+    "phone": 57605,
+    "country": "Colombia",
+    "city": "Bogotá"
+  },
+  {
+    "username": "Alice Johnson",
+    "email": "alice.johnson@mailFake.com",
+    "password": "StrongP@ss1",
+    "confirmPassword": "StrongP@ss1",
+    "phone": 12345,
+    "country": "Argentina",
+    "city": "Buenos Aires"
+  },
+  {
+    "username": "John Doe",
+    "email": "john.doe@mailFake.com",
+    "password": "Password2$",
+    "confirmPassword": "Password2$",
+    "phone": 67890,
+    "country": "Chile",
+    "city": "Santiago"
+  },
+  {
+    "username": "Jane Smith",
+    "email": "jane.smith@mailFake.com",
+    "password": "TestPwd!3",
+    "confirmPassword": "TestPwd!3",
+    "phone": 54321,
+    "country": "Peru",
+    "city": "Lima"
+  },
+  {
+    "username": "Carlos Mendoza",
+    "email": "carlos.mendoza@mailFake.com",
+    "password": "MyPwd@4",
+    "confirmPassword": "MyPwd@4",
+    "phone": 98765,
+    "country": "Mexico",
+    "city": "Mexico City"
+  }
+]

@@ -177,7 +177,7 @@ export class UpdateUserDto {
   @ApiProperty()
   @IsOptional()
   @IsInt()
-  phone: string;
+  phone: number;
 
   /**
    * Country name. (Is optional)
