@@ -6,6 +6,9 @@ import { UsersModule } from '../users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersEntity } from 'src/entities/users.entity';
 import { JwtModule } from '@nestjs/jwt';
+import { config as dotenvConfig } from 'dotenv';
+
+dotenvConfig({ path: './.env.development.local' });
 
 @Module({
   imports: [TypeOrmModule.forFeature([UsersEntity]), UsersModule, JwtModule.register({
