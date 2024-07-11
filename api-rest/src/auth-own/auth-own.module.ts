@@ -14,7 +14,7 @@ dotenvConfig({ path: './.env.development.local' });
   imports: [TypeOrmModule.forFeature([UsersEntity]), UsersModule, JwtModule.register({
     global: true,
     signOptions: { expiresIn: '1h' },
-    secret: process.env.JWT_SECRET,
+    secret: process.env.AUTH0_SECRET,
   }),],
   controllers: [AuthOwnController],
   providers: [AuthOwnService, AuthOwnRepository],

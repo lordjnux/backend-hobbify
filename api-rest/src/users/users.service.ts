@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateUserDto } from '../dtos/user.dto';
+import { CreateAdminDto, UpdateUserDto } from '../dtos/user.dto';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
+ 
   constructor(private readonly usersRepository: UsersRepository) {}
 
   findAll() {
@@ -12,6 +13,10 @@ export class UsersService {
 
   findOne(id: number) {
     return `This action returns a #${id} user`;
+  }
+
+  createAdmin(createAdminDto: CreateAdminDto) {
+    return this.usersRepository.createAdmin(createAdminDto)
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {

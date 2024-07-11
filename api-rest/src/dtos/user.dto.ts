@@ -12,6 +12,7 @@ import {
   IsArray,
   ValidateNested,
   IsEmpty,
+  IsBoolean,
 } from 'class-validator';
 import { MatchPassword } from '../decorators/matchPassword.decorator';
 import { HobbiesEntity } from '../entities/hobbies.entity';
@@ -22,18 +23,15 @@ export class CreateUserDto {
    * User name
    * @example Robert Fischer
    */
-  @ApiProperty()
+  @ApiProperty({example: "robert.fischer"})
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
   @MaxLength(80)
   username: string;
 
-  /**
-   * User email. It is part of the access credentials.
-   * @example robert.fischer@mailFake.com
-   */
-  @ApiProperty()
+
+  @ApiProperty({example:"robert.fischer@mailFake.com"})
   @IsNotEmpty()
   @IsString()
   @IsEmail()
@@ -43,7 +41,7 @@ export class CreateUserDto {
    * Password must contain at least one lowercase letter, one uppercase letter, one number, one of the following special characters: !@#$%^&*, and length between 8 and 15 characters
    * @example Secure17$
    */
-  @ApiProperty()
+  @ApiProperty({example: "Secure17$"})
   @IsNotEmpty()
   @IsString()
   @MinLength(8)
@@ -61,7 +59,7 @@ export class CreateUserDto {
    * Confirm password must contain at least one lowercase letter, one uppercase letter, one number, one of the following special characters: !@#$%^&*, and length between 8 and 15 characters
    * @example Secure17$
    */
-  @ApiProperty()
+  @ApiProperty({example: "Secure17$"})
   @IsNotEmpty()
   @IsString()
   @MinLength(8)
@@ -76,31 +74,21 @@ export class CreateUserDto {
   @Validate(MatchPassword)
   confirmPassword: string;
 
-  /**
-   * Phone number
-   * @example 57605
-   */
-  @ApiProperty()
+
+  @ApiProperty({example: 57605})
   @IsOptional()
   @IsInt()
   phone: number;
 
-  /**
-   * Country name. (Is optional)
-   * @example Colombia
-   */
-  @ApiProperty()
+  @ApiProperty({example: "Colombia"})
   @IsOptional()
   @IsString()
   @MinLength(5)
   @MaxLength(20)
   country: string;
 
-  /**
-   * City name. (Is optional)
-   * @example Colombia
-   */
-  @ApiProperty()
+
+  @ApiProperty({example: "Bogotá"})
   @IsOptional()
   @IsString()
   @MinLength(5)
@@ -110,6 +98,11 @@ export class CreateUserDto {
   @IsEmpty()
   @ApiHideProperty()
   idAdmin: boolean;
+}
+
+export class CreateAdminDto extends CreateUserDto {
+  @IsBoolean()
+  readonly isAdmin: boolean = true;
 }
 
 export class LoginUserDto extends PickType(CreateUserDto, [
