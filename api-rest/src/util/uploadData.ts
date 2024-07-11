@@ -34,7 +34,10 @@ export class UploadDataService implements OnApplicationBootstrap {
         userEntity.phone = user.phone;
         userEntity.country = user.country;
         userEntity.city = user.city;
-        await this.userRepository.save(userEntity);
+        const existingUser = await this.userRepository.findOneBy({
+          email: user.email,
+        });
+        if (!existingUser) await this.userRepository.save(userEntity);
       }),
     );
   }
@@ -45,7 +48,10 @@ export class UploadDataService implements OnApplicationBootstrap {
         const hobbieEntity = new HobbiesEntity();
         hobbieEntity.name = hobbie.name;
         hobbieEntity.emoji = hobbie.emoji;
-        await this.hobbiesRepository.save(hobbieEntity);
+        const existingHobbie = await this.hobbiesRepository.findOneBy({
+          name: hobbie.name,
+        });
+        if (!existingHobbie) await this.hobbiesRepository.save(hobbieEntity);
       }),
     );
   }
