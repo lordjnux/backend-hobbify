@@ -23,15 +23,14 @@ export class CreateUserDto {
    * User name
    * @example Robert Fischer
    */
-  @ApiProperty({example: "robert.fischer"})
+  @ApiProperty({ example: 'robert.fischer' })
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
   @MaxLength(80)
   username: string;
 
-
-  @ApiProperty({example:"robert.fischer@mailFake.com"})
+  @ApiProperty({ example: 'robert.fischer@mailFake.com' })
   @IsNotEmpty()
   @IsString()
   @IsEmail()
@@ -41,7 +40,7 @@ export class CreateUserDto {
    * Password must contain at least one lowercase letter, one uppercase letter, one number, one of the following special characters: !@#$%^&*, and length between 8 and 15 characters
    * @example Secure17$
    */
-  @ApiProperty({example: "Secure17$"})
+  @ApiProperty({ example: 'Secure17$' })
   @IsNotEmpty()
   @IsString()
   @MinLength(8)
@@ -59,7 +58,7 @@ export class CreateUserDto {
    * Confirm password must contain at least one lowercase letter, one uppercase letter, one number, one of the following special characters: !@#$%^&*, and length between 8 and 15 characters
    * @example Secure17$
    */
-  @ApiProperty({example: "Secure17$"})
+  @ApiProperty({ example: 'Secure17$' })
   @IsNotEmpty()
   @IsString()
   @MinLength(8)
@@ -74,30 +73,24 @@ export class CreateUserDto {
   @Validate(MatchPassword)
   confirmPassword: string;
 
-
-  @ApiProperty({example: 57605})
+  @ApiProperty({ example: 57605 })
   @IsOptional()
   @IsInt()
   phone: number;
 
-  @ApiProperty({example: "Colombia"})
+  @ApiProperty({ example: 'Colombia' })
   @IsOptional()
   @IsString()
   @MinLength(5)
   @MaxLength(20)
   country: string;
 
-
-  @ApiProperty({example: "Bogotá"})
+  @ApiProperty({ example: 'Bogotá' })
   @IsOptional()
   @IsString()
   @MinLength(5)
   @MaxLength(20)
   city: string;
-
-  @IsEmpty()
-  @ApiHideProperty()
-  idAdmin: boolean;
 }
 
 export class CreateAdminDto extends CreateUserDto {

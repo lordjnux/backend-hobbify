@@ -1,6 +1,5 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { AuthGuard } from './authzero/auth/auth.guard';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller()
@@ -14,7 +13,6 @@ export class AppController {
   }
 
   @Get('/privado')
-  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Ruta privada. Solo acceso después de login ok' })
   @ApiResponse({
     status: 200,

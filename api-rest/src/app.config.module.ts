@@ -21,7 +21,6 @@ import { StripeModule } from './stripe/stripe.module';
 import { SocketModule } from './socket/socket.module';
 import { UploadDataService } from './util/uploadData';
 import { HobbiesEntity } from './entities/hobbies.entity';
-console.log(process.env.MONGODB_URI);
 
 @Module({
   imports: [
