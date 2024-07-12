@@ -98,6 +98,12 @@ export class CreateAdminDto extends CreateUserDto {
   readonly isAdmin: boolean = true;
 }
 
+export class BanUserDto {
+  @IsBoolean()
+  isBanned: boolean;
+}
+
+
 export class LoginUserDto extends PickType(CreateUserDto, [
   'email',
   'password',
