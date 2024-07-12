@@ -16,7 +16,7 @@ async function bootstrap() {
     .setTitle('HOBBIFY API')
     .setDescription('The Hobbify API description')
     .setVersion('1.0')
-    .addTag('hobbies')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

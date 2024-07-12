@@ -8,12 +8,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from 'src/entities/users.entity';
 import { ResponseRepositories } from '../util/response-repositories';
 import { Repository } from 'typeorm';
-import { CreateUserDto, LoginUserDto } from '../dtos/user.dto';
+import { CreateAdminDto, CreateUserDto, LoginUserDto } from '../dtos/user.dto';
 import { plainToClass } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersRepository {
+ 
   private responseRepositories: ResponseRepositories = {
     error: false,
     message: '',
@@ -59,6 +60,55 @@ export class UsersRepository {
       this.responseRepositories.data = plainToClass(
         UsersEntity,
         getAllDataUserSaved,
+      );
+    } catch (error: any) {
+      console.error(error);
+
+      this.responseRepositories = {
+        error: true,
+        message: error.message,
+        data: error,
+      };
+    } finally {
+      return this.responseRepositories;
+    }
+  }
+
+  async createAdmin(createAdminDto: CreateAdminDto) {
+    this.responseRepositories = new ResponseRepositories();
+    try {
+      const existUser = await this.findByEmail(createAdminDto.email);
+
+      if (existUser.error || existUser.data) {
+        this.responseRepositories = {
+          error: true,
+          message: 'Already exist an user with this email',
+          data: undefined,
+        };
+        throw new ConflictException('Already exist an user with this email');
+      }
+
+      const hashPass = await bcrypt.hash(createAdminDto.password, 10);
+
+      if (!hashPass) {
+        this.responseRepositories = {
+          error: true,
+          message: 'Password can not be hashed',
+          data: undefined,
+        };
+        throw new InternalServerErrorException("Password can't not be hashed");
+      }
+
+      createAdminDto.password = hashPass;
+      const adminToSave = plainToClass(UsersEntity, createAdminDto);
+      adminToSave.isAdmin = true;
+
+      const adminSaved = await this.usersRepository.save(adminToSave);
+      const getAllDataAdminSaved = await this.findByIdUser(adminSaved.userId);
+
+      this.responseRepositories.data = plainToClass(
+        UsersEntity,
+        getAllDataAdminSaved,
       );
     } catch (error: any) {
       console.error(error);
@@ -179,7 +229,6 @@ export class UsersRepository {
       console.log(updatedUser);
     } catch (error) {
       console.error(error);
-
       this.responseRepositories = {
         error: true,
         message: error.message,

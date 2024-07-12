@@ -60,6 +60,9 @@ export class UsersEntity {
   })
   phone: number;
 
+  @Column({nullable: true, default:false})
+  isAdmin: boolean
+
   @OneToMany(() => ChatsEntity, (chat) => chat.user)
   chats: ChatsEntity[];
 
