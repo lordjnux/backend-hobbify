@@ -58,7 +58,7 @@ export class UsersEntity {
     type: 'int',
     nullable: true,
   })
-  phone: string;
+  phone: number;
 
   @Column({nullable: true, default:false})
   isAdmin: boolean
