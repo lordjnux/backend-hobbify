@@ -27,9 +27,9 @@ export class UsersRepository {
   ) {}
 
   async findAll() {
-    const users = this.usersRepository.find()
+    const users = await this.usersRepository.find()
 
-    if (!users) return "There are no users yet"
+    if (!users.length) return "There are no users yet";
 
     return users
   }
