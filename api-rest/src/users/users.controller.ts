@@ -1,6 +1,6 @@
 import { Controller, Get, Body, Patch, Param, Delete, UseGuards, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateAdminDto, UpdateUserDto } from '../dtos/user.dto';
+import { BanUserDto, CreateAdminDto, UpdateUserDto } from '../dtos/user.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/roles/roles.decorator';
 import { Role } from 'src/roles/roles.enum';
@@ -14,9 +14,6 @@ export class UsersController {
 
   @Get()
   @ApiBearerAuth()
-  //just for ADMIN
-  @Roles(Role.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
   findAll() {
     return this.usersService.findAll();
   }
@@ -24,8 +21,8 @@ export class UsersController {
   @Get(':id')
   @ApiBearerAuth()
   //just for ADMIN
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  findById(@Param('id') id: string) {
+    return this.usersService.findById(id);
   }
 
   @Post("createAdmin")
@@ -33,9 +30,19 @@ export class UsersController {
     return this.usersService.createAdmin(createAdminDto)
   }
 
+  @Patch(':id/ban')
+  @ApiBearerAuth()
+  //just for ADMIN
+  async banUser(
+    @Param('id') userId: string,
+    @Body() banUserDto: BanUserDto,
+  ) {
+    return await this.usersService.banUser(userId, banUserDto);
+  }
+
   @Patch(':id')
   @ApiBearerAuth()
-  //just for ADMIN and the same user can just update its profile
+  //ADMIN and an user can just update its profile
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     console.log("id:", id);
     console.log("body:", updateUserDto);
@@ -45,8 +52,8 @@ export class UsersController {
 
   @Delete(':id')
   @ApiBearerAuth()
-  //just for ADMIN 
+  //ADMIN and an user can delete its profile
   remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+    return this.usersService.remove(id);
   }
 }
