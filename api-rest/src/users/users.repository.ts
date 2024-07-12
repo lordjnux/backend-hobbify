@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from 'src/entities/users.entity';
 import { ResponseRepositories } from '../util/response-repositories';
 import { Repository } from 'typeorm';
-import { CreateAdminDto, CreateUserDto, LoginUserDto } from '../dtos/user.dto';
+import { BanUserDto, CreateAdminDto, CreateUserDto, LoginUserDto } from '../dtos/user.dto';
 import { plainToClass } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 
@@ -25,6 +25,14 @@ export class UsersRepository {
     @InjectRepository(UsersEntity)
     private usersRepository: Repository<UsersEntity>,
   ) {}
+
+  async findAll() {
+    const users = this.usersRepository.find()
+
+    if (!users) return "There are no users yet"
+
+    return users
+  }
 
   async signIn(signInUser: CreateUserDto): Promise<ResponseRepositories> {
     this.responseRepositories = new ResponseRepositories();
@@ -215,6 +223,28 @@ export class UsersRepository {
     }
   }
 
+  async banUser(userId: string, banUserDto: BanUserDto): Promise<ResponseRepositories> {
+    let response = new ResponseRepositories();
+    try {
+      const user = await this.usersRepository.findOneBy({ userId });
+      if (!user) throw new NotFoundException(`User(${userId}) not found.`);
+
+      user.isBanned = banUserDto.isBanned;
+      response.data = await this.usersRepository.save(user);
+
+      console.log('userBanned...');
+      console.log(user);
+    } catch (error: any) {
+      this.responseRepositories = {
+        error: true,
+        message: error.message,
+        data: error,
+      };
+    } finally {
+      return response;
+    }
+  }
+
   async UpdateUser(id: string, updateUserDto: Partial<UsersEntity>) {
     this.responseRepositories = new ResponseRepositories();
     try {
@@ -237,5 +267,24 @@ export class UsersRepository {
     } finally {
       return this.responseRepositories;
     }
+  }
+
+  async remove(id: string) {
+    try{
+
+      const foundUser = await this.findByIdUser(id)
+      const deletedUser = await this.usersRepository.delete(foundUser)
+      console.log(deletedUser);
+      
+    }catch (error) {
+      console.error(error);
+      this.responseRepositories = {
+        error: true,
+        message: error.message,
+        data: error,
+      };
+    } finally {
+      return this.responseRepositories;
+    }    
   }
 }
