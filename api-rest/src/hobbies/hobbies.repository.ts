@@ -46,13 +46,21 @@ export class HobbiesRepository {
     const hobbie = await this.hobbiesRepository.findOneBy({ hobbieId: id });
     if (!hobbie) throw new NotFoundException('Hobbie not found');
     await this.hobbiesRepository.update(id, updateHobbyDto);
-    return 'Hobbie actualizado';
+    const newHobbie = await this.hobbiesRepository.findOneBy({ hobbieId: id });
+    return {
+      hobbie: newHobbie,
+      message: 'Hobbie actualizado',
+    };
   }
 
   async removeHobbie(id) {
     const hobbie = await this.hobbiesRepository.findOneBy({ hobbieId: id });
     if (!hobbie) throw new NotFoundException('Hobbie not found');
     await this.hobbiesRepository.delete(id);
-    return 'Hobbie eliminado';
+    const newHobbie = await this.hobbiesRepository.findOneBy({ hobbieId: id });
+    return {
+      hobbie: newHobbie,
+      message: 'Hobbie eliminado',
+    };
   }
 }
