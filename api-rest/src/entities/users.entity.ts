@@ -58,7 +58,7 @@ export class UsersEntity {
     type: 'int',
     nullable: true,
   })
-  phone: string;
+  phone: number;
 
   @OneToMany(() => ChatsEntity, (chat) => chat.user)
   chats: ChatsEntity[];

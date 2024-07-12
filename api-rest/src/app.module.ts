@@ -7,8 +7,7 @@ import { MongodbModule } from './mongodb/mongodb.module';
 import { AuthOwnModule } from './auth-own/auth-own.module';
 import { AppConfigModule } from './app.config.module';
 import { HobbiesModule } from './hobbies/hobbies.module';
-
-
+import { UploadDataService } from './util/uploadData';
 
 @Module({
   imports: [
