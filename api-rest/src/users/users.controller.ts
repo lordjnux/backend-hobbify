@@ -1,11 +1,7 @@
-import { Controller, Get, Body, Patch, Param, Delete, UseGuards, Post } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { BanUserDto, CreateAdminDto, UpdateUserDto } from '../dtos/user.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Roles } from 'src/roles/roles.decorator';
-import { Role } from 'src/roles/roles.enum';
-import { AuthGuard } from 'src/authzero/auth/auth.guard';
-import { RolesGuard } from 'src/roles/roles.guards';
 
 @ApiTags('users')
 @Controller('users')
