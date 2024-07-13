@@ -7,6 +7,7 @@ import { MongodbModule } from './mongodb/mongodb.module';
 import { AuthOwnModule } from './auth-own/auth-own.module';
 import { AppConfigModule } from './app.config.module';
 import { HobbiesModule } from './hobbies/hobbies.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { HobbiesModule } from './hobbies/hobbies.module';
     ConfigModule.forRoot(),
     MongodbModule,
     HobbiesModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

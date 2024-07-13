@@ -7,6 +7,7 @@ import { HobbiesEntity } from '../entities/hobbies.entity';
 import { CreateHobbyDto } from '../dtos/hobby.dto';
 import users from './data/users.json';
 import hobbies from './data/hobbies.json';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UploadDataService implements OnApplicationBootstrap {
@@ -29,7 +30,7 @@ export class UploadDataService implements OnApplicationBootstrap {
         const userEntity = new UsersEntity();
         userEntity.username = user.username;
         userEntity.email = user.email;
-        userEntity.password = user.password;
+        userEntity.password = await bcrypt.hash(user.password, 10);
         userEntity.phone = user.phone;
         userEntity.country = user.country;
         userEntity.city = user.city;
