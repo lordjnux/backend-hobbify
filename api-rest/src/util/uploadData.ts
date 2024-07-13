@@ -7,7 +7,7 @@ import { HobbiesEntity } from '../entities/hobbies.entity';
 import { CreateHobbyDto } from '../dtos/hobby.dto';
 import users from './data/users.json';
 import hobbies from './data/hobbies.json';
-import * as bcrypt from 'bcrypt';
+import { async } from 'rxjs';
 
 @Injectable()
 export class UploadDataService implements OnApplicationBootstrap {

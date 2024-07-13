@@ -2,17 +2,12 @@ import {
   Controller,
   FileTypeValidator,
   MaxFileSizeValidator,
-  Param,
   ParseFilePipe,
-  ParseUUIDPipe,
   Post,
   UploadedFile,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-// import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
-import { AuthGuard } from 'src/authzero/auth/auth.guard';
 import { CloudinaryService } from './cloudinary.service';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 

@@ -1,13 +1,6 @@
 import { Controller, Body, Post } from '@nestjs/common';
 import { AuthOwnService } from './auth-own.service';
-import {
-  ApiBody,
-  ApiInternalServerErrorResponse,
-  ApiNotFoundResponse,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto, LoginUserDto } from '../dtos/user.dto';
 
 @Controller('authown')

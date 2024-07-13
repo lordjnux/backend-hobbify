@@ -8,12 +8,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from 'src/entities/users.entity';
 import { ResponseRepositories } from '../util/response-repositories';
 import { Repository } from 'typeorm';
-import { CreateUserDto, LoginUserDto } from '../dtos/user.dto';
+import { BanUserDto, CreateAdminDto, CreateUserDto, LoginUserDto } from '../dtos/user.dto';
 import { plainToClass } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersRepository {
+ 
   private responseRepositories: ResponseRepositories = {
     error: false,
     message: '',
@@ -24,6 +25,14 @@ export class UsersRepository {
     @InjectRepository(UsersEntity)
     private usersRepository: Repository<UsersEntity>,
   ) {}
+
+  async findAll() {
+    const users = await this.usersRepository.find()
+
+    if (!users.length) return "There are no users yet";
+
+    return users
+  }
 
   async signIn(signInUser: CreateUserDto): Promise<ResponseRepositories> {
     this.responseRepositories = new ResponseRepositories();
@@ -59,6 +68,55 @@ export class UsersRepository {
       this.responseRepositories.data = plainToClass(
         UsersEntity,
         getAllDataUserSaved,
+      );
+    } catch (error: any) {
+      console.error(error);
+
+      this.responseRepositories = {
+        error: true,
+        message: error.message,
+        data: error,
+      };
+    } finally {
+      return this.responseRepositories;
+    }
+  }
+
+  async createAdmin(createAdminDto: CreateAdminDto) {
+    this.responseRepositories = new ResponseRepositories();
+    try {
+      const existUser = await this.findByEmail(createAdminDto.email);
+
+      if (existUser.error || existUser.data) {
+        this.responseRepositories = {
+          error: true,
+          message: 'Already exist an user with this email',
+          data: undefined,
+        };
+        throw new ConflictException('Already exist an user with this email');
+      }
+
+      const hashPass = await bcrypt.hash(createAdminDto.password, 10);
+
+      if (!hashPass) {
+        this.responseRepositories = {
+          error: true,
+          message: 'Password can not be hashed',
+          data: undefined,
+        };
+        throw new InternalServerErrorException("Password can't not be hashed");
+      }
+
+      createAdminDto.password = hashPass;
+      const adminToSave = plainToClass(UsersEntity, createAdminDto);
+      adminToSave.isAdmin = true;
+
+      const adminSaved = await this.usersRepository.save(adminToSave);
+      const getAllDataAdminSaved = await this.findByIdUser(adminSaved.userId);
+
+      this.responseRepositories.data = plainToClass(
+        UsersEntity,
+        getAllDataAdminSaved,
       );
     } catch (error: any) {
       console.error(error);
@@ -165,6 +223,28 @@ export class UsersRepository {
     }
   }
 
+  async banUser(userId: string, banUserDto: BanUserDto): Promise<ResponseRepositories> {
+    let response = new ResponseRepositories();
+    try {
+      const user = await this.usersRepository.findOneBy({ userId });
+      if (!user) throw new NotFoundException(`User(${userId}) not found.`);
+
+      user.isBanned = banUserDto.isBanned;
+      response.data = await this.usersRepository.save(user);
+
+      console.log('userBanned...');
+      console.log(user);
+    } catch (error: any) {
+      this.responseRepositories = {
+        error: true,
+        message: error.message,
+        data: error,
+      };
+    } finally {
+      return response;
+    }
+  }
+
   async UpdateUser(id: string, updateUserDto: Partial<UsersEntity>) {
     this.responseRepositories = new ResponseRepositories();
     try {
@@ -179,7 +259,6 @@ export class UsersRepository {
       console.log(updatedUser);
     } catch (error) {
       console.error(error);
-
       this.responseRepositories = {
         error: true,
         message: error.message,
@@ -188,5 +267,24 @@ export class UsersRepository {
     } finally {
       return this.responseRepositories;
     }
+  }
+
+  async remove(id: string) {
+    try{
+
+      const foundUser = await this.findByIdUser(id)
+      const deletedUser = await this.usersRepository.delete(foundUser)
+      console.log(deletedUser);
+      
+    }catch (error) {
+      console.error(error);
+      this.responseRepositories = {
+        error: true,
+        message: error.message,
+        data: error,
+      };
+    } finally {
+      return this.responseRepositories;
+    }    
   }
 }
