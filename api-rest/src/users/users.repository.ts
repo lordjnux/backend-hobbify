@@ -8,13 +8,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from 'src/entities/users.entity';
 import { ResponseRepositories } from '../util/response-repositories';
 import { Repository } from 'typeorm';
-import { BanUserDto, CreateAdminDto, CreateUserDto, LoginUserDto } from '../dtos/user.dto';
+import {
+  BanUserDto,
+  CreateAdminDto,
+  CreateUserDto,
+  LoginUserDto,
+} from '../dtos/user.dto';
 import { plainToClass } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersRepository {
- 
   private responseRepositories: ResponseRepositories = {
     error: false,
     message: '',
@@ -27,11 +31,66 @@ export class UsersRepository {
   ) {}
 
   async findAll() {
-    const users = await this.usersRepository.find()
+    const users = await this.usersRepository.find();
 
-    if (!users.length) return "There are no users yet";
+    if (!users.length) return 'There are no users yet';
 
-    return users
+    return users;
+  }
+
+  async findUsersWithSameHobbies(
+    userId: string,
+  ): Promise<ResponseRepositories> {
+    this.responseRepositories = new ResponseRepositories();
+    try {
+      const user = await this.usersRepository.findOne({
+        where: { userId },
+        relations: ['hobbies'],
+      });
+
+      if (!user) {
+        throw new NotFoundException(`User(${userId}) not found.`);
+      }
+
+      const userHobbies = user.hobbies.map((hobbie) => hobbie.hobbieId);
+
+      if (userHobbies.length === 0) {
+        this.responseRepositories = {
+          error: false,
+          message: 'The user has no hobbies.',
+          data: [],
+        };
+        return this.responseRepositories;
+      }
+
+      console.log('userHobbies:', userHobbies);
+      
+      const isBanned = false;
+      const usersWithSameHobbies = await this.usersRepository
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.hobbies', 'hobbies')
+        .where('hobbies.hobbieId IN (:...userHobbies)', { userHobbies })
+        .andWhere('user.isBanned = :isBanned', { isBanned })
+        .andWhere('user.userId != :userId', { userId })
+        .getMany();
+
+      console.log('usersWithSameHobbies:', usersWithSameHobbies);
+      this.responseRepositories = {
+        error: false,
+        message: 'Users with same hobbies retrieved successfully',
+        data: usersWithSameHobbies,
+      };
+    } catch (error: any) {
+      console.error(error);
+
+      this.responseRepositories = {
+        error: true,
+        message: error.message,
+        data: error,
+      };
+    } finally {
+      return this.responseRepositories;
+    }
   }
 
   async signIn(signInUser: CreateUserDto): Promise<ResponseRepositories> {
@@ -227,7 +286,10 @@ export class UsersRepository {
     }
   }
 
-  async banUser(userId: string, banUserDto: BanUserDto): Promise<ResponseRepositories> {
+  async banUser(
+    userId: string,
+    banUserDto: BanUserDto,
+  ): Promise<ResponseRepositories> {
     let response = new ResponseRepositories();
     try {
       const user = await this.usersRepository.findOneBy({ userId });
@@ -274,13 +336,11 @@ export class UsersRepository {
   }
 
   async remove(id: string) {
-    try{
-
-      const foundUser = await this.findByIdUser(id)
-      const deletedUser = await this.usersRepository.delete(foundUser)
+    try {
+      const foundUser = await this.findByIdUser(id);
+      const deletedUser = await this.usersRepository.delete(foundUser);
       console.log(deletedUser);
-      
-    }catch (error) {
+    } catch (error) {
       console.error(error);
       this.responseRepositories = {
         error: true,
@@ -289,6 +349,6 @@ export class UsersRepository {
       };
     } finally {
       return this.responseRepositories;
-    }    
+    }
   }
 }
