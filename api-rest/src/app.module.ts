@@ -18,6 +18,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     ConfigModule.forRoot(),
     MongodbModule,
     HobbiesModule,
+    WebhookModule
   ],
   controllers: [AppController],
   providers: [AppService],

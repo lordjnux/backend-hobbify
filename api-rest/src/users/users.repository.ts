@@ -147,7 +147,9 @@ export class UsersRepository {
         relations: {
           hobbies: true,
           chats: true,
-          payments: true,
+          payments: {
+            suscription: true
+          },
         },
       });
       return result;
@@ -167,7 +169,9 @@ export class UsersRepository {
         relations: {
           hobbies: true,
           chats: true,
-          payments: true,
+          payments: {
+            suscription: true
+          },
         },
       });
 

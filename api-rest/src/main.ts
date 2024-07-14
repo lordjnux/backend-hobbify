@@ -12,7 +12,7 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
   });
-  app.enableCors();
+  
 
   const config = new DocumentBuilder()
     .setTitle('HOBBIFY API')

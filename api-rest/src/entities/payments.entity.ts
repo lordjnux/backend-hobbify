@@ -24,9 +24,16 @@ export class PaymentsEntity {
   @Column()
   method: string;
 
+  @Column()
+  invoice: string;
+
+  @Column()
+  status: string;
+
   @ManyToOne(() => UsersEntity, (user) => user.payments)
   user: UsersEntity;
 
-  @OneToOne(() => SuscriptionEntity, (suscription) => suscription.suscriptionId)
+  @ManyToOne(() => SuscriptionEntity, (suscription) => suscription.payments)
   suscription: SuscriptionEntity;
 }
+
