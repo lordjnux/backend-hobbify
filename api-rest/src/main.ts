@@ -8,7 +8,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 dotenv.config({ path: './.env.development.local' });
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    rawBody: true,
+  });
+  app.enableCors({
+    origin: '*',
+  });
 
   app.use(auth(Auth0Config));
 
