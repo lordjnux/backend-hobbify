@@ -6,8 +6,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 dotenv.config({ path: './.env.development.local' });
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  const app = await NestFactory.create(AppModule, {
+    rawBody: true,
+  });
+  app.enableCors({
+    origin: '*',
+  });
+  
 
   const config = new DocumentBuilder()
     .setTitle('HOBBIFY API')

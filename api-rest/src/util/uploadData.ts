@@ -8,6 +8,7 @@ import { CreateHobbyDto } from '../dtos/hobby.dto';
 import users from './data/users.json';
 import hobbies from './data/hobbies.json';
 import * as bcrypt from 'bcrypt';
+import { SuscriptionEntity } from 'src/entities/suscription.entity';
 
 @Injectable()
 export class UploadDataService implements OnApplicationBootstrap {
@@ -16,12 +17,17 @@ export class UploadDataService implements OnApplicationBootstrap {
     private readonly userRepository: Repository<UsersEntity>,
     @InjectRepository(HobbiesEntity)
     private readonly hobbiesRepository: Repository<HobbiesEntity>,
+    @InjectRepository(SuscriptionEntity)
+    private readonly subscriptionRepository: Repository<SuscriptionEntity>,
   ) {}
+
   async onApplicationBootstrap() {
     await this.addUsers(users);
     console.log('Users added');
     await this.addHobbies(hobbies);
     console.log('Hobbies added');
+    await this.addSubscription();
+    console.log('Subscription added');
   }
 
   async addUsers(users: CreateUserDto[]): Promise<void> {
@@ -54,5 +60,17 @@ export class UploadDataService implements OnApplicationBootstrap {
         if (!existingHobbie) await this.hobbiesRepository.save(hobbieEntity);
       }),
     );
+  }
+
+  async addSubscription(): Promise<void> {
+    const subscriptionEntity = new SuscriptionEntity();
+    subscriptionEntity.plan = 'Plan premium';
+    subscriptionEntity.price = 30; // Euros
+    subscriptionEntity.duration = 1; // 1 month
+
+    const existingSubscription = await this.subscriptionRepository.findOneBy({
+      plan: subscriptionEntity.plan,
+    });
+    if (!existingSubscription) await this.subscriptionRepository.save(subscriptionEntity);
   }
 }
