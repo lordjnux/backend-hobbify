@@ -8,8 +8,7 @@ import { AuthOwnModule } from './auth-own/auth-own.module';
 import { AppConfigModule } from './app.config.module';
 import { HobbiesModule } from './hobbies/hobbies.module';
 import { WebhookModule } from './webhook/webhook.module';
-
-
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -19,7 +18,6 @@ import { WebhookModule } from './webhook/webhook.module';
     ConfigModule.forRoot(),
     MongodbModule,
     HobbiesModule,
-    WebhookModule
   ],
   controllers: [AppController],
   providers: [AppService],

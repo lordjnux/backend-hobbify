@@ -58,7 +58,13 @@ export class UsersEntity {
     type: 'int',
     nullable: true,
   })
-  phone: string;
+  phone: number;
+
+  @Column({nullable: true, default:false})
+  isAdmin: boolean
+
+  @Column({ nullable: true,default: false })
+  isBanned: boolean;
 
   @OneToMany(() => ChatsEntity, (chat) => chat.user)
   chats: ChatsEntity[];

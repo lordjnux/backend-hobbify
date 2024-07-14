@@ -19,7 +19,8 @@ import { MongodbModule } from './mongodb/mongodb.module';
 import { HobbiesModule } from './hobbies/hobbies.module';
 import { StripeModule } from './stripe/stripe.module';
 import { SocketModule } from './socket/socket.module';
-console.log(process.env.MONGODB_URI);
+import { UploadDataService } from './util/uploadData';
+import { HobbiesEntity } from './entities/hobbies.entity';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ console.log(process.env.MONGODB_URI);
       PaymentsEntity,
       SuscriptionEntity,
       FeaturesEntity,
+      HobbiesEntity,
     ]),
     CloudinaryModule,
     UsersModule,
@@ -58,6 +60,6 @@ console.log(process.env.MONGODB_URI);
     SocketModule,
   ],
   controllers: [MongodbController],
-  providers: [MongodbService, MongodbRepository],
+  providers: [MongodbService, MongodbRepository, UploadDataService],
 })
 export class AppConfigModule {}
