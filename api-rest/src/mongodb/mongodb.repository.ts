@@ -5,7 +5,6 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { IChat } from "./interfaces/chat.interface";
 import { IMessage } from "./interfaces/message.interface";
-import { log } from "console";
 
 
 @Injectable() 
