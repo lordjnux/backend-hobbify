@@ -10,6 +10,12 @@ export class WebhookService {
    return await this.webhookRepository.checkoutComplete(checkout)
   }
 
+  async sendMailInvoice( data) {
+    
+    
+    return await this.webhookRepository.sendMailInvoice(data)
+  }
+
   async customerSubscriptionUpdate(){
 
   }
