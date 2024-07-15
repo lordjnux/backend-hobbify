@@ -19,10 +19,6 @@ import { HobbiesEntity } from '../entities/hobbies.entity';
 import { Type } from 'class-transformer';
 
 export class CreateUserDto {
-  /**
-   * User name
-   * @example Robert Fischer
-   */
   @ApiProperty({ example: 'robert.fischer' })
   @IsNotEmpty()
   @IsString()
@@ -36,10 +32,6 @@ export class CreateUserDto {
   @IsEmail()
   email: string;
 
-  /**
-   * Password must contain at least one lowercase letter, one uppercase letter, one number, one of the following special characters: !@#$%^&*, and length between 8 and 15 characters
-   * @example Secure17$
-   */
   @ApiProperty({ example: 'Secure17$' })
   @IsNotEmpty()
   @IsString()
@@ -54,10 +46,6 @@ export class CreateUserDto {
   )
   password: string;
 
-  /**
-   * Confirm password must contain at least one lowercase letter, one uppercase letter, one number, one of the following special characters: !@#$%^&*, and length between 8 and 15 characters
-   * @example Secure17$
-   */
   @ApiProperty({ example: 'Secure17$' })
   @IsNotEmpty()
   @IsString()
@@ -94,6 +82,66 @@ export class CreateUserDto {
 }
 
 export class CreateAdminDto extends CreateUserDto {
+  @ApiProperty({ example: 'admin' })
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(3)
+  @MaxLength(80)
+  username: string;
+
+  @ApiProperty({ example: 'admin@mailFake.com' })
+  @IsNotEmpty()
+  @IsString()
+  @IsEmail()
+  email: string;
+
+  @ApiProperty({ example: 'Secure17$' })
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(8)
+  @MaxLength(15)
+  @Matches(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/,
+    {
+      message:
+        'Password must contain at least one lowercase letter, one uppercase letter, one number, one of the following special characters: !@#$%^&*, and length between 8 and 15 characters',
+    },
+  )
+  password: string;
+
+  @ApiProperty({ example: 'Secure17$' })
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(8)
+  @MaxLength(15)
+  @Matches(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/,
+    {
+      message:
+        'Confirm password must contain at least one lowercase letter, one uppercase letter, one number, one of the following special characters: !@#$%^&*, and length between 8 and 15 characters',
+    },
+  )
+  @Validate(MatchPassword)
+  confirmPassword: string;
+
+  @ApiProperty({ example: 57605 })
+  @IsOptional()
+  @IsInt()
+  phone: number;
+
+  @ApiProperty({ example: 'Colombia' })
+  @IsOptional()
+  @IsString()
+  @MinLength(5)
+  @MaxLength(20)
+  country: string;
+
+  @ApiProperty({ example: 'Bogotá' })
+  @IsOptional()
+  @IsString()
+  @MinLength(5)
+  @MaxLength(20)
+  city: string;
   @IsBoolean()
   readonly isAdmin: boolean = true;
 }

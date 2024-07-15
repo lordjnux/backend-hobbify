@@ -1,52 +1,38 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
+import { Role } from 'src/roles/roles.enum';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor() {}
+  constructor(private readonly jwtService: JwtService) {}
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const httPContext = context.switchToHttp();
-    const request = httPContext.getRequest();
-    const pathRequested = request.url;
-    const method = request.method;
-    const body = request.body;
-    const params = request.params;
-    const query = request.query;
-    // const oidc = request.oidc;
-    // const oidcToken = request.oidc.accessToken;
+    const request = context.switchToHttp().getRequest();
+    const token = this.extractTokenFromHeader(request);
+    console.log(token);
 
-    // //! PENDING: Sincronizar con equipo de frontend para la config de auth0 allá
-    // //! variables de identificación como mismo cliente de Auth0.
-    // const authHeader = request.headers.authorization;
-    // if (!authHeader) {
-    //   console.log('Authorization header is missing -- token perdido');
-    //   throw new UnauthorizedException('Authorization header is missing -- token perdido');
-    // }
+    if (!token) throw new UnauthorizedException('Bearer token not found');
 
-    // console.log('Aplico este guard....!');
-    // console.log('oidc:');
-    // console.log(JSON.stringify(oidc));
-    // console.log('oidc-user:');
-    // console.log(oidc.user);
-    // console.log('token:', oidcToken);
-    // console.log(method, pathRequested, params, query, body);
-    // // console.log(request);
+    try {
+      const secret = process.env.AUTH0_SECRET;
+      const payload = this.jwtService.verify(token, { secret });
+      request.user = payload;
+      return true;
+    } catch (e) {
+      throw new UnauthorizedException('Invalid token');
+    }
+  }
 
-    // const token = authHeader.split(' ')[1];
-
-    // try {
-    //   const decoded = jwt.verify(token, process.env.AUTH0_SECRET);
-    //   console.log('Decoded JWT:', decoded);
-      
-    //   request.user = decoded;
-    //   return true;
-    // } catch (error) {
-    //   throw new UnauthorizedException('Invalid token');
-    // }
-
-    return true;
+  private extractTokenFromHeader(request: Request): string | undefined {
+    const authHeader = request.headers['authorization'];
+    if (!authHeader) {
+      return undefined;
+    }
+    const [type, token] = authHeader.split(' ');
+    return type === 'Bearer' ? token : undefined;
   }
 }
+
