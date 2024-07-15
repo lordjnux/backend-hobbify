@@ -1,4 +1,7 @@
+import { Logger } from '@nestjs/common';
 import {
+  ConnectedSocket,
+  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
@@ -15,50 +18,67 @@ dotenvConfig({ path: './.env.development.local' });
 export class SocketGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  @WebSocketServer()
-  private server: Server;
+  @WebSocketServer() server: Server;
 
-  afterInit(server: any) {
-    // :',
-    //   server.opts,
-    //   server.clientsCount,
-    //   server.cllients,
-    // );
+  private logger: Logger = new Logger('ChatRoomsGateway');
+
+  private clients: Map<string, string | string[]> = new Map();
+
+  afterInit(server: Server) {
+    this.logger.log('Initialized!');
+    // console.log(server);
   }
 
-  handleConnection(client: any, ...args: any[]) {
-    console.info('Client connected...');
-    //
-    //
+  async handleConnection(client: Socket) {
+    this.logger.debug('Client conected', client.id);
+
+    const username = client.handshake.query.username;
+    const hobbie = client.handshake.query.hobbie;
+
+    console.log(username, hobbie);
+
+    this.clients.set(client.id, username);
+
+    this.server.emit('clients', Array.from(this.clients.values()));
   }
 
-  handleDisconnect(client: any) {
-    console.warn('Client disconnected...');
-    //
+  async handleDisconnect(client: Socket) {
+    this.logger.debug('Client disconected', client.id);
+    this.clients.delete(client.id);
+    this.server.emit('clients', Array.from(this.clients.values()));
   }
 
-  @SubscribeMessage('join-room')
-  handleJoinRoom(client: Socket, room: 'string') {
-    console.warn('Client join-room...');
-
-    client.join(`room-${room}`);
-  }
-
-  @SubscribeMessage('message-sent')
-  handleIncomminMessage(
-    client: Socket,
-    payload: { room: string; message: string },
+  @SubscribeMessage('createRoom')
+  handleCreateRoom(
+    @MessageBody() targetUsername: string,
+    @ConnectedSocket() client: Socket,
   ) {
-    console.warn('server:message-sent...');
+    const roomName = `room-${client.id}-${targetUsername}`;
+    client.join(roomName);
 
-    this.server.emit('newMessage', payload);
+    const targetClientId = [...this.clients].find(
+      ([, username]) => username === targetUsername,
+    )?.[0];
+
+    if (targetClientId) {
+      const targetClient = this.server.sockets.sockets.get(targetClientId);
+      if (targetClient) {
+        targetClient.join(roomName);
+        targetClient.emit('roomJoined', roomName);
+      }
+    }
+    client.emit('roomJoined', roomName);
   }
 
-  @SubscribeMessage('room-leave')
-  handleRoomLeave(client: Socket, room: string) {
-    console.warn('Client room-leave...');
-    //
-    //
-    // client.leave(`room-${room}`);
+  @SubscribeMessage('message')
+  handleMessage(
+    @MessageBody() message: { room: string; content: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    this.logger.debug('Message', message);
+    this.server.to(message.room).emit('message', {
+      from: `(${this.clients.get(client.id)})`,
+      content: message.content,
+    });
   }
 }

@@ -60,10 +60,10 @@ export class UsersEntity {
   })
   phone: number;
 
-  @Column({nullable: true, default:false})
+  @Column({ default:false})
   isAdmin: boolean
 
-  @Column({ nullable: true,default: false })
+  @Column({ default: false })
   isBanned: boolean;
 
   @OneToMany(() => ChatsEntity, (chat) => chat.user)
