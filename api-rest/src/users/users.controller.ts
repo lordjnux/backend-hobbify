@@ -23,7 +23,8 @@ export class UsersController {
 
   @Get()
   @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   findAll() {
     return this.usersService.findAll();
   }

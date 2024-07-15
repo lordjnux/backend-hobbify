@@ -82,14 +82,14 @@ export class CreateUserDto {
 }
 
 export class CreateAdminDto extends CreateUserDto {
-  @ApiProperty({ example: 'robert.fischer1' })
+  @ApiProperty({ example: 'admin' })
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
   @MaxLength(80)
   username: string;
 
-  @ApiProperty({ example: 'robert.fischer1@mailFake.com' })
+  @ApiProperty({ example: 'admin@mailFake.com' })
   @IsNotEmpty()
   @IsString()
   @IsEmail()

@@ -264,6 +264,8 @@ export class UsersRepository {
           city: true,
           country: true,
           phone: true,
+          isAdmin: true,
+          isBanned: true
         },
         where: {
           email: credentials.email,
