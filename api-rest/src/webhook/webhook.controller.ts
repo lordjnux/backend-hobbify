@@ -8,6 +8,7 @@ import {
   Res,
   Injectable,
   Inject,
+  Body,
 } from '@nestjs/common';
 import {Request, Response} from 'express';
 import Stripe from 'stripe';
@@ -27,6 +28,12 @@ export class WebhookController {
   @Get('/')
   async index(){
   
+  }
+
+  @Post('/mail')
+  async sendEmail( @Body() data) {
+    
+    return await this.webhookService.sendMailInvoice(data)
   }
   
 

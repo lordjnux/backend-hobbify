@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",
@@ -41,8 +42,10 @@
     "expo-server-sdk": "^3.10.0",
     "express-jwt": "^7.7.8",
     "express-openid-connect": "^2.17.1",
+    "handlebars": "^4.7.8",
     "jwks-rsa": "^3.1.0",
     "mongoose": "^8.4.4",
+    "nodemailer": "^6.9.14",
     "passport": "^0.7.0",
     "passport-auth0": "^1.4.4",
     "passport-local": "^1.0.0",
@@ -61,6 +64,7 @@
     "@types/jest": "^29.5.2",
     "@types/multer": "^1.4.11",
     "@types/node": "^20.3.1",
+    "@types/nodemailer": "^6.4.15",
     "@types/passport-local": "^1.0.38",
     "@types/supertest": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
