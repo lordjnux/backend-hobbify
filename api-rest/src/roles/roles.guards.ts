@@ -11,22 +11,31 @@ import {
   export class RolesGuard implements CanActivate {
     constructor(private readonly reflector: Reflector) {}
     canActivate(context: ExecutionContext): boolean {
+
       const requiredRoles = this.reflector.getAllAndOverride<Role[]>('roles', [
         context.getHandler(),
         context.getClass(),
       ]);
+
       const request = context.switchToHttp().getRequest();
       const user = request.user;
+
+      console.log('Required Roles:', requiredRoles);
+    console.log('User Roles:', user.roles);
+
+      if (!user || !user.roles) {
+        throw new ForbiddenException('You do not have permission to access1');
+      }
   
       const hasRole = () =>
-        requiredRoles.some((role) => {
-          return user?.roles?.includes(role);
-        });
+        requiredRoles.some((role) => user.roles.includes(role));
+
       console.log(user.roles);
   
-      const valid = user && user.roles && hasRole();
-      if (!valid)
-        throw new ForbiddenException('You do not have permission to access');
-      return true;
+      if (!hasRole()) {
+      throw new ForbiddenException('You do not have permission to access');
+    }
+
+    return true;
     }
   }

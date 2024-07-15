@@ -145,7 +145,7 @@ export class UsersRepository {
     this.responseRepositories = new ResponseRepositories();
     try {
       const existUser = await this.findByEmail(createAdminDto.email);
-
+  
       if (existUser.error || existUser.data) {
         this.responseRepositories = {
           error: true,
@@ -154,9 +154,9 @@ export class UsersRepository {
         };
         throw new ConflictException('Already exist an user with this email');
       }
-
+  
       const hashPass = await bcrypt.hash(createAdminDto.password, 10);
-
+  
       if (!hashPass) {
         this.responseRepositories = {
           error: true,
@@ -165,21 +165,23 @@ export class UsersRepository {
         };
         throw new InternalServerErrorException("Password can't not be hashed");
       }
-
+  
       createAdminDto.password = hashPass;
       const adminToSave = plainToClass(UsersEntity, createAdminDto);
-      adminToSave.isAdmin = true;
+      adminToSave.isAdmin = true; // Ensure this is correctly set
 
+      console.log('Admin to save:', adminToSave); // Log admin data before saving
+  
       const adminSaved = await this.usersRepository.save(adminToSave);
       const getAllDataAdminSaved = await this.findByIdUser(adminSaved.userId);
-
+  
       this.responseRepositories.data = plainToClass(
         UsersEntity,
         getAllDataAdminSaved,
       );
     } catch (error: any) {
       console.error(error);
-
+  
       this.responseRepositories = {
         error: true,
         message: error.message,
@@ -295,7 +297,7 @@ export class UsersRepository {
       const user = await this.usersRepository.findOneBy({ userId });
       if (!user) throw new NotFoundException(`User(${userId}) not found.`);
 
-      user.isBanned = banUserDto.isBanned;
+      user.isBanned = true;
       response.data = await this.usersRepository.save(user);
 
       console.log('userBanned...');
