@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   // , NotFoundException
@@ -9,6 +10,7 @@ import { UsersRepository } from '../users/users.repository';
 import { CreateUserDto, LoginUserDto } from '../dtos/user.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { Role } from 'src/roles/roles.enum';
 
 @Injectable()
 export class AuthOwnService {
@@ -28,28 +30,47 @@ export class AuthOwnService {
   }
 
   async login(credentials: LoginUserDto): Promise<ResponseToControllers> {
-    const existsUser: ResponseRepositories =
-      await this.usersRepository.findByCredentials(credentials);
+    if (!credentials || !credentials.email || !credentials.password) {
+      throw new BadRequestException('Email and password are required');
+    }
+
+    const existsUser: ResponseRepositories = await this.usersRepository.findByCredentials(credentials);
+
+    if (existsUser.error || !existsUser.data) {
+      throw new NotFoundException('Invalid credentials.');
+    }
+
+    console.log('Exists user:', existsUser); // Log the retrieved user data
 
     const isValidCredentials = await bcrypt.compare(
       credentials.password,
       existsUser.data.password,
     );
 
-    if (existsUser.error || !existsUser.data || !isValidCredentials)
+    if (!isValidCredentials) {
       throw new NotFoundException('Invalid credentials.');
+    }
+
+    console.log('User isAdmin:', existsUser.data.isAdmin);
 
     const userPayload = {
       id: existsUser.data.id,
       email: existsUser.data.email,
-      isAdmin: existsUser.data.isAdmin,
+      roles: existsUser.data.isAdmin ? [Role.Admin] : [Role.User],
     };
+
+    console.log(userPayload.roles);
+    
+
     const token = this.jwtService.sign(userPayload);
 
     return {
       status: 200,
-      message: 'Credentials is valid, succesful login',
-      data: token
+      message: 'Credentials are valid, successful login',
+      data: {
+        token,
+        userData: existsUser.data,
+      },
     };
   }
 }
