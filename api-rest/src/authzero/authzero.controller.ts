@@ -1,18 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthzeroService } from './authzero.service';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LoginExternalUserDto } from '../dtos/user.dto';
 
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthzeroController {
   constructor(private readonly authService: AuthzeroService) {}
 
-  @Get('authredirect')
-  @ApiOperation({ summary: 'Ejemplo de ruta redirect manejada por Auth' })
-  @ApiResponse({ status: 200, description: 'Redirect exitoso' })
-  externalAuthenticated() {
+  @Post('login')
+  @ApiOperation({ summary: 'Ruta redirect por Auth0' })
+  externalAuthenticated(@Body() externalUserDto: LoginExternalUserDto) {
     console.log('externalAuthenticated...');
-
-    return this.authService.externalAuthenticated();
+    console.log(externalUserDto);
+    return this.authService.externalAuthenticated(externalUserDto);
   }
 }
