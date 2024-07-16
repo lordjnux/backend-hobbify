@@ -7,10 +7,5 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Grupo 4",
-  "license": "MIT",
-  "dependencies": {
-    "buffer-to-stream": "^1.0.0",
-    "cloudinary": "^2.2.0",
-    "jsonwebtoken": "^9.0.2"
-  }
+  "license": "MIT"
 }

@@ -1,4 +1,4 @@
-import { ApiHideProperty, ApiProperty, PickType } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsString,
@@ -11,7 +11,6 @@ import {
   IsOptional,
   IsArray,
   ValidateNested,
-  IsEmpty,
   IsBoolean,
 } from 'class-validator';
 import { MatchPassword } from '../decorators/matchPassword.decorator';
