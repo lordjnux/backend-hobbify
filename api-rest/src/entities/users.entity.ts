@@ -60,8 +60,8 @@ export class UsersEntity {
   })
   phone: number;
 
-  @Column({ default:false})
-  isAdmin: boolean
+  @Column({ default: false })
+  isAdmin: boolean;
 
   @Column({ default: false })
   isBanned: boolean;
@@ -75,4 +75,7 @@ export class UsersEntity {
   @ManyToMany(() => HobbiesEntity)
   @JoinTable()
   hobbies: HobbiesEntity[];
+
+  @Column({ default: false })
+  isExternal: boolean;
 }

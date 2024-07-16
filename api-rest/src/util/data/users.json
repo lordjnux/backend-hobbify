@@ -6,7 +6,8 @@
     "confirmPassword": "Secure17$",
     "phone": 57605,
     "country": "Colombia",
-    "city": "Bogotá"
+    "city": "Bogotá",
+    "isExternal": false
   },
   {
     "username": "Alice Johnson",
@@ -15,7 +16,8 @@
     "confirmPassword": "StrongP@ss1",
     "phone": 12345,
     "country": "Argentina",
-    "city": "Buenos Aires"
+    "city": "Buenos Aires",
+    "isExternal": false
   },
   {
     "username": "John Doe",
@@ -24,7 +26,8 @@
     "confirmPassword": "Password2$",
     "phone": 67890,
     "country": "Chile",
-    "city": "Santiago"
+    "city": "Santiago",
+    "isExternal": false
   },
   {
     "username": "Jane Smith",
@@ -33,7 +36,8 @@
     "confirmPassword": "TestPwd!3",
     "phone": 54321,
     "country": "Peru",
-    "city": "Lima"
+    "city": "Lima",
+    "isExternal": false
   },
   {
     "username": "Carlos Mendoza",
@@ -42,6 +46,7 @@
     "confirmPassword": "MyPwd@4",
     "phone": 98765,
     "country": "Mexico",
-    "city": "Mexico City"
+    "city": "Mexico City",
+    "isExternal": false
   }
 ]
