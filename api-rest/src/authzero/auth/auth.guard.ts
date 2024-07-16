@@ -1,52 +1,72 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
+import * as jwt from 'jsonwebtoken';
+import jwksRsa from 'jwks-rsa';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor() {}
+  private jwksClient: jwksRsa.JwksClient;
+
+  constructor() {
+    this.jwksClient = jwksRsa({
+      jwksUri:
+        'https://dev-an01z5v77lpyd1r3.us.auth0.com/.well-known/jwks.json',
+    });
+  }
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const httPContext = context.switchToHttp();
-    const request = httPContext.getRequest();
-    const pathRequested = request.url;
-    const method = request.method;
-    const body = request.body;
-    const params = request.params;
-    const query = request.query;
-    // const oidc = request.oidc;
-    // const oidcToken = request.oidc.accessToken;
+    const httpContext = context.switchToHttp();
+    const request = httpContext.getRequest();
+    const authHeader = request.headers.authorization;
+    console.log('header:', authHeader);
+    if (!authHeader) {
+      throw new UnauthorizedException('Authorization header is missing');
+    }
 
-    // //! PENDING: Sincronizar con equipo de frontend para la config de auth0 allá
-    // //! variables de identificación como mismo cliente de Auth0.
-    // const authHeader = request.headers.authorization;
-    // if (!authHeader) {
-    //   console.log('Authorization header is missing -- token perdido');
-    //   throw new UnauthorizedException('Authorization header is missing -- token perdido');
-    // }
-
-    // console.log('Aplico este guard....!');
-    // console.log('oidc:');
-    // console.log(JSON.stringify(oidc));
-    // console.log('oidc-user:');
-    // console.log(oidc.user);
-    // console.log('token:', oidcToken);
-    // console.log(method, pathRequested, params, query, body);
-    // // console.log(request);
-
-    // const token = authHeader.split(' ')[1];
-
-    // try {
-    //   const decoded = jwt.verify(token, process.env.AUTH0_SECRET);
-    //   console.log('Decoded JWT:', decoded);
-      
-    //   request.user = decoded;
-    //   return true;
-    // } catch (error) {
-    //   throw new UnauthorizedException('Invalid token');
-    // }
+    const token = authHeader.split(' ')[1];
+    console.log('token:', token);
 
     return true;
+
+  }
+
+  private async validateToken(token: string): Promise<any> {
+    console.log('validateToken...');
+    const decodedToken: any = jwt.decode(token, { complete: true });
+    console.log('decodedToken:', decodedToken);
+    if (!decodedToken) {
+      throw new UnauthorizedException('Invalid token');
+    }
+
+    const key = await this.getSigningKey(decodedToken.header.kid);
+    return new Promise((resolve, reject) => {
+      jwt.verify(token, key, { algorithms: ['RS256'] }, (error, decoded) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(decoded);
+        }
+      });
+    });
+  }
+
+  private getSigningKey(kid: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.jwksClient.getSigningKey(kid, (error, key) => {
+        if (error) {
+          reject(error);
+        } else {
+          const signingKey = key.getPublicKey();
+          resolve(signingKey);
+        }
+      });
+    });
   }
 }

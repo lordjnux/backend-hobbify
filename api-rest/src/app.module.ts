@@ -8,7 +8,8 @@ import { AuthOwnModule } from './auth-own/auth-own.module';
 import { AppConfigModule } from './app.config.module';
 import { HobbiesModule } from './hobbies/hobbies.module';
 import { WebhookModule } from './webhook/webhook.module';
-import { NotificationsModule } from './notifications/notifications.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './authzero/auth/auth.guard';
 
 @Module({
   imports: [
@@ -18,9 +19,15 @@ import { NotificationsModule } from './notifications/notifications.module';
     ConfigModule.forRoot(),
     MongodbModule,
     HobbiesModule,
-    WebhookModule
+    WebhookModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AppModule {}

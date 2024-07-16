@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "buffer-to-stream": "^1.0.0",
-    "cloudinary": "^2.2.0"
+    "cloudinary": "^2.2.0",
+    "jsonwebtoken": "^9.0.2"
   }
 }
