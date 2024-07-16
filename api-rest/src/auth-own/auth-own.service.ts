@@ -10,7 +10,9 @@ import { UsersRepository } from '../users/users.repository';
 import { CreateUserDto, LoginUserDto } from '../dtos/user.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { Role } from 'src/roles/roles.enum';
+import { Role } from '../roles/roles.enum';
+import { plainToClass } from 'class-transformer';
+import { UsersEntity } from '../entities/users.entity';
 
 @Injectable()
 export class AuthOwnService {
@@ -18,11 +20,11 @@ export class AuthOwnService {
     error: false,
     message: '',
     data: undefined,
-  }
+  };
 
   constructor(
-    private readonly usersRepository: UsersRepository,  
-    private readonly jwtService: JwtService
+    private readonly usersRepository: UsersRepository,
+    private readonly jwtService: JwtService,
   ) {}
 
   async signIn(signInUser: CreateUserDto) {
@@ -34,7 +36,8 @@ export class AuthOwnService {
       throw new BadRequestException('Email and password are required');
     }
 
-    const existsUser: ResponseRepositories = await this.usersRepository.findByCredentials(credentials);
+    const existsUser: ResponseRepositories =
+      await this.usersRepository.findByCredentials(credentials);
 
     if (existsUser.error || !existsUser.data) {
       throw new NotFoundException('Invalid credentials.');
@@ -60,16 +63,17 @@ export class AuthOwnService {
     };
 
     console.log(userPayload.roles);
-    
 
-    const token = this.jwtService.sign(userPayload);
+    const token = this.jwtService.sign(userPayload, {
+      secret: process.env.AUTH0_SECRET,
+    });
 
     return {
       status: 200,
       message: 'Credentials are valid, successful login',
       data: {
         token,
-        userData: existsUser.data,
+        userData: { ...existsUser.data, password: undefined },
       },
     };
   }
