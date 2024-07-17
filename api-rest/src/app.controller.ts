@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from './authzero/auth/auth.guard';
 
 @Controller()
 @ApiTags('Root')
@@ -14,11 +15,16 @@ export class AppController {
 
   @Get('/privado')
   @ApiOperation({ summary: 'Ruta privada. Solo acceso después de login ok' })
+  @UseGuards(AuthGuard)
   @ApiResponse({
     status: 200,
     description: 'Devuelve estring: "Ejemplo privado".',
   })
-  getEjemploPrivado(): string {
-    return this.appService.getEjemploPrivado();
+  getEjemploPrivado() {
+    return {
+      status: 200,
+      message: 'Credentials is valid, succesful login',
+      data: true,
+    };
   }
 }

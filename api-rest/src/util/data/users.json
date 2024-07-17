@@ -6,7 +6,11 @@
     "confirmPassword": "Secure17$",
     "phone": 57605,
     "country": "Colombia",
-    "city": "Bogotá"
+    "city": "Bogotá",
+    "isExternal": false,
+    "biography": "",
+    "idealMate": "",
+    "hobbyIntensity": ""
   },
   {
     "username": "Alice Johnson",
@@ -15,7 +19,11 @@
     "confirmPassword": "StrongP@ss1",
     "phone": 12345,
     "country": "Argentina",
-    "city": "Buenos Aires"
+    "city": "Buenos Aires",
+    "isExternal": false,
+    "biography": "",
+    "idealMate": "",
+    "hobbyIntensity": ""
   },
   {
     "username": "John Doe",
@@ -24,7 +32,11 @@
     "confirmPassword": "Password2$",
     "phone": 67890,
     "country": "Chile",
-    "city": "Santiago"
+    "city": "Santiago",
+    "isExternal": false,
+    "biography": "",
+    "idealMate": "",
+    "hobbyIntensity": ""
   },
   {
     "username": "Jane Smith",
@@ -33,7 +45,11 @@
     "confirmPassword": "TestPwd!3",
     "phone": 54321,
     "country": "Peru",
-    "city": "Lima"
+    "city": "Lima",
+    "isExternal": false,
+    "biography": "",
+    "idealMate": "",
+    "hobbyIntensity": ""
   },
   {
     "username": "Carlos Mendoza",
@@ -42,6 +58,10 @@
     "confirmPassword": "MyPwd@4",
     "phone": 98765,
     "country": "Mexico",
-    "city": "Mexico City"
+    "city": "Mexico City",
+    "isExternal": false,
+    "biography": "",
+    "idealMate": "",
+    "hobbyIntensity": ""
   }
 ]

@@ -63,8 +63,6 @@ export class UsersRepository {
         return this.responseRepositories;
       }
 
-      console.log('userHobbies:', userHobbies);
-      
       const isBanned = false;
       const usersWithSameHobbies = await this.usersRepository
         .createQueryBuilder('user')
@@ -74,7 +72,6 @@ export class UsersRepository {
         .andWhere('user.userId != :userId', { userId })
         .getMany();
 
-      console.log('usersWithSameHobbies:', usersWithSameHobbies);
       this.responseRepositories = {
         error: false,
         message: 'Users with same hobbies retrieved successfully',
@@ -145,7 +142,7 @@ export class UsersRepository {
     this.responseRepositories = new ResponseRepositories();
     try {
       const existUser = await this.findByEmail(createAdminDto.email);
-  
+
       if (existUser.error || existUser.data) {
         this.responseRepositories = {
           error: true,
@@ -154,9 +151,9 @@ export class UsersRepository {
         };
         throw new ConflictException('Already exist an user with this email');
       }
-  
+
       const hashPass = await bcrypt.hash(createAdminDto.password, 10);
-  
+
       if (!hashPass) {
         this.responseRepositories = {
           error: true,
@@ -165,23 +162,23 @@ export class UsersRepository {
         };
         throw new InternalServerErrorException("Password can't not be hashed");
       }
-  
+
       createAdminDto.password = hashPass;
       const adminToSave = plainToClass(UsersEntity, createAdminDto);
       adminToSave.isAdmin = true; // Ensure this is correctly set
 
-      console.log('Admin to save:', adminToSave); // Log admin data before saving
-  
+      // Log admin data before saving
+
       const adminSaved = await this.usersRepository.save(adminToSave);
       const getAllDataAdminSaved = await this.findByIdUser(adminSaved.userId);
-  
+
       this.responseRepositories.data = plainToClass(
         UsersEntity,
         getAllDataAdminSaved,
       );
     } catch (error: any) {
       console.error(error);
-  
+
       this.responseRepositories = {
         error: true,
         message: error.message,
@@ -203,13 +200,17 @@ export class UsersRepository {
           city: true,
           country: true,
           phone: true,
+          biography: true,
+          idealMate: true,
+          hobbyIntensity: true,
+          isAdmin: true,
         },
         where: { userId },
         relations: {
           hobbies: true,
           chats: true,
           payments: {
-            suscription: true
+            suscription: true,
           },
         },
       });
@@ -231,7 +232,7 @@ export class UsersRepository {
           hobbies: true,
           chats: true,
           payments: {
-            suscription: true
+            suscription: true,
           },
         },
       });
@@ -265,7 +266,10 @@ export class UsersRepository {
           country: true,
           phone: true,
           isAdmin: true,
-          isBanned: true
+          isBanned: true,
+          biography: true,
+          idealMate: true,
+          hobbyIntensity: true,
         },
         where: {
           email: credentials.email,
@@ -301,9 +305,6 @@ export class UsersRepository {
 
       user.isBanned = true;
       response.data = await this.usersRepository.save(user);
-
-      console.log('userBanned...');
-      console.log(user);
     } catch (error: any) {
       this.responseRepositories = {
         error: true,
@@ -324,9 +325,6 @@ export class UsersRepository {
       const updatedUser = Object.assign(user, updateUserDto);
       this.responseRepositories.data =
         await this.usersRepository.save(updatedUser);
-
-      console.log('userUpdated...');
-      console.log(updatedUser);
     } catch (error) {
       console.error(error);
       this.responseRepositories = {
@@ -343,7 +341,6 @@ export class UsersRepository {
     try {
       const foundUser = await this.findByIdUser(id);
       const deletedUser = await this.usersRepository.delete(foundUser);
-      console.log(deletedUser);
     } catch (error) {
       console.error(error);
       this.responseRepositories = {

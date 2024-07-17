@@ -1,4 +1,4 @@
-import { ApiHideProperty, ApiProperty, PickType } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsString,
@@ -11,7 +11,6 @@ import {
   IsOptional,
   IsArray,
   ValidateNested,
-  IsEmpty,
   IsBoolean,
 } from 'class-validator';
 import { MatchPassword } from '../decorators/matchPassword.decorator';
@@ -79,6 +78,26 @@ export class CreateUserDto {
   @MinLength(5)
   @MaxLength(20)
   city: string;
+
+  @ApiProperty({ example: 'true' })
+  @IsOptional()
+  @IsBoolean()
+  isExternal: boolean;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  biography: string;
+
+  @ApiProperty({ example: 'Bogotá' })
+  @IsOptional()
+  @IsString()
+  idealMate: string; //Tu compañero ideal
+
+  @ApiProperty({ example: 'Bogotá' })
+  @IsOptional()
+  @IsString()
+  hobbyIntensity: string;
 }
 
 export class CreateAdminDto extends CreateUserDto {
@@ -150,7 +169,6 @@ export class BanUserDto {
   @IsBoolean()
   isBanned: boolean;
 }
-
 
 export class LoginUserDto extends PickType(CreateUserDto, [
   'email',
@@ -252,4 +270,32 @@ export class UpdateUserDto {
   @ValidateNested({ each: true })
   @Type(() => HobbiesEntity)
   hobbies: HobbiesEntity[];
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  biography: string;
+
+  @ApiProperty({ example: 'Bogotá' })
+  @IsOptional()
+  @IsString()
+  idealMate: string; //Tu compañero ideal
+
+  @ApiProperty({ example: 'Bogotá' })
+  @IsOptional()
+  @IsString()
+  hobbyIntensity: string;
+}
+
+export class LoginExternalUserDto {
+  @ApiProperty({ example: 'Robert Fischer' })
+  @IsString()
+  @IsNotEmpty()
+  username: string;
+
+  @ApiProperty({ example: 'username@mailFake.com' })
+  @IsNotEmpty()
+  @IsString()
+  @IsEmail()
+  email: string;
 }

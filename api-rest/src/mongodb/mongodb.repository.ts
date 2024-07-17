@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { chatModel } from "./models/chat.model";
-import { messageModel } from "./models/message.model";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { IChat } from "./interfaces/chat.interface";
