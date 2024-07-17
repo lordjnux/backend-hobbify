@@ -60,8 +60,22 @@ export class UsersEntity {
   })
   phone: number;
 
+
+  @Column({nullable: true})
+  biography: string
+
+  @Column({nullable: true})
+  idealMate: string //Tu compañero ideal
+
+  @Column({nullable: true})
+  hobbyIntensity: string //Intensidad de hobbies
+
+  @Column({ default:false})
+  isAdmin: boolean
+
   @Column({ default: false })
   isAdmin: boolean;
+
 
   @Column({ default: false })
   isBanned: boolean;
