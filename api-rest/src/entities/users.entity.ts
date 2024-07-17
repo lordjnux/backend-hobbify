@@ -60,6 +60,7 @@ export class UsersEntity {
   })
   phone: number;
 
+
   @Column({nullable: true})
   biography: string
 
@@ -73,6 +74,10 @@ export class UsersEntity {
   isAdmin: boolean
 
   @Column({ default: false })
+  isAdmin: boolean;
+
+
+  @Column({ default: false })
   isBanned: boolean;
 
   @OneToMany(() => ChatsEntity, (chat) => chat.user)
@@ -84,4 +89,7 @@ export class UsersEntity {
   @ManyToMany(() => HobbiesEntity)
   @JoinTable()
   hobbies: HobbiesEntity[];
+
+  @Column({ default: false })
+  isExternal: boolean;
 }

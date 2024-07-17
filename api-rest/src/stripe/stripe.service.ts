@@ -10,7 +10,7 @@ export class StripeService {
   async getStripe() {
     
   const stripe = new Stripe(process.env.SECRET_API_KEY)
-  const prices = await stripe.prices.list()
+  const prices = await stripe.prices.list({active: true})
   
 
   return prices
