@@ -7,7 +7,10 @@
     "phone": 57605,
     "country": "Colombia",
     "city": "Bogotá",
-    "isExternal": false
+    "isExternal": false,
+    "biography": "",
+    "idealMate": "",
+    "hobbyIntensity": ""
   },
   {
     "username": "Alice Johnson",
@@ -17,7 +20,10 @@
     "phone": 12345,
     "country": "Argentina",
     "city": "Buenos Aires",
-    "isExternal": false
+    "isExternal": false,
+    "biography": "",
+    "idealMate": "",
+    "hobbyIntensity": ""
   },
   {
     "username": "John Doe",
@@ -27,7 +33,10 @@
     "phone": 67890,
     "country": "Chile",
     "city": "Santiago",
-    "isExternal": false
+    "isExternal": false,
+    "biography": "",
+    "idealMate": "",
+    "hobbyIntensity": ""
   },
   {
     "username": "Jane Smith",
@@ -37,7 +46,10 @@
     "phone": 54321,
     "country": "Peru",
     "city": "Lima",
-    "isExternal": false
+    "isExternal": false,
+    "biography": "",
+    "idealMate": "",
+    "hobbyIntensity": ""
   },
   {
     "username": "Carlos Mendoza",
@@ -47,6 +59,9 @@
     "phone": 98765,
     "country": "Mexico",
     "city": "Mexico City",
-    "isExternal": false
+    "isExternal": false,
+    "biography": "",
+    "idealMate": "",
+    "hobbyIntensity": ""
   }
 ]

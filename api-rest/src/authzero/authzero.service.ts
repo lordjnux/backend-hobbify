@@ -47,6 +47,9 @@ export class AuthzeroService {
         phone: 1234,
         country: '',
         city: '',
+        biography: '',
+        idealMate: '',
+        hobbyIntensity: '',
       };
 
       const resulSigIn = await this.userRepository.signIn(newExternalUser);
