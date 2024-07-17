@@ -10,7 +10,14 @@
     "isExternal": false,
     "biography": "",
     "idealMate": "",
-    "hobbyIntensity": ""
+    "hobbyIntensity": "",
+    "firstTimes": [
+      {"pri_perfil": true},
+      {"pri_feed": true},
+      {"pri_per_no": true},
+      {"pri_lista_chat": true},
+      {"pri_chat": true}
+    ]
   },
   {
     "username": "Alice Johnson",
@@ -23,7 +30,14 @@
     "isExternal": false,
     "biography": "",
     "idealMate": "",
-    "hobbyIntensity": ""
+    "hobbyIntensity": "",
+    "firstTimes": [
+      {"pri_perfil": true},
+      {"pri_feed": true},
+      {"pri_per_no": true},
+      {"pri_lista_chat": true},
+      {"pri_chat": true}
+    ]
   },
   {
     "username": "John Doe",
@@ -36,7 +50,14 @@
     "isExternal": false,
     "biography": "",
     "idealMate": "",
-    "hobbyIntensity": ""
+    "hobbyIntensity": "",
+    "firstTimes": [
+      {"pri_perfil": true},
+      {"pri_feed": true},
+      {"pri_per_no": true},
+      {"pri_lista_chat": true},
+      {"pri_chat": true}
+    ]
   },
   {
     "username": "Jane Smith",
@@ -49,7 +70,14 @@
     "isExternal": false,
     "biography": "",
     "idealMate": "",
-    "hobbyIntensity": ""
+    "hobbyIntensity": "",
+    "firstTimes": [
+      {"pri_perfil": true},
+      {"pri_feed": true},
+      {"pri_per_no": true},
+      {"pri_lista_chat": true},
+      {"pri_chat": true}
+    ]
   },
   {
     "username": "Carlos Mendoza",
@@ -62,6 +90,13 @@
     "isExternal": false,
     "biography": "",
     "idealMate": "",
-    "hobbyIntensity": ""
+    "hobbyIntensity": "",
+    "firstTimes": [
+      {"pri_perfil": true},
+      {"pri_feed": true},
+      {"pri_per_no": true},
+      {"pri_lista_chat": true},
+      {"pri_chat": true}
+    ]
   }
 ]

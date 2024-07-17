@@ -31,7 +31,7 @@ export class UsersController {
   
   @Get('byhobbies/:id')
   @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  //@UseGuards(AuthGuard)
   findUsersWithSameHobbies(@Param('id') id: string) {
     return this.usersService.findUsersWithSameHobbies(id);
   }

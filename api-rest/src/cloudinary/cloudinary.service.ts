@@ -10,7 +10,9 @@ export class CloudinaryService {
   async uploadImageCloudinary(
     file: Express.Multer.File,
   ): Promise<CloudinaryDto> {
+
     const result = await this.cloudinaryRepository.uploadImageCloudinary(file);
     return plainToClass(CloudinaryDto, result);
+    
   }
 }

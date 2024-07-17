@@ -1,5 +1,6 @@
+import toStream from 'buffer-to-stream';
 import { v2 as cloudinary } from 'cloudinary';
-import * as toStream from 'buffer-to-stream';
+
 
 export const cloudinaryUploader = (file) => {
   return (resolve, reject) => {
