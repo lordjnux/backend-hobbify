@@ -69,6 +69,19 @@ export class UsersEntity {
   @Column({ nullable: true })
   hobbyIntensity: string; //Intensidad de hobbies
 
+  @Column({ type: 'simple-json', nullable: false, default: () => `'[
+    {"first_perfil": true}, 
+    {"first_feed": true},
+    {"first_perfil_no": true},
+    {"first_lista_chat": true},
+    {"first_chat": true}
+  ]'` })
+  firstTimes: { first_perfil: boolean; first_feed: boolean; first_perfil_no: boolean; first_lista_chat: boolean; first_chat: boolean }[];
+
+  @Column({nullable: true})
+  image: string
+
+
   @Column({ default: false })
   isAdmin: boolean;
 

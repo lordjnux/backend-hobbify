@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from 'src/entities/users.entity';
 import { ResponseRepositories } from '../util/response-repositories';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import {
   BanUserDto,
   CreateAdminDto,
@@ -47,13 +47,13 @@ export class UsersRepository {
         where: { userId },
         relations: ['hobbies'],
       });
-
+  
       if (!user) {
         throw new NotFoundException(`User(${userId}) not found.`);
       }
-
+  
       const userHobbies = user.hobbies.map((hobbie) => hobbie.hobbieId);
-
+  
       if (userHobbies.length === 0) {
         this.responseRepositories = {
           error: false,
@@ -62,7 +62,7 @@ export class UsersRepository {
         };
         return this.responseRepositories;
       }
-
+  
       const isBanned = false;
       const usersWithSameHobbies = await this.usersRepository
         .createQueryBuilder('user')
@@ -71,15 +71,22 @@ export class UsersRepository {
         .andWhere('user.isBanned = :isBanned', { isBanned })
         .andWhere('user.userId != :userId', { userId })
         .getMany();
-
+  
+      const userIdsWithSameHobbies = usersWithSameHobbies.map(u => u.userId);
+  
+      const completeUsersWithSameHobbies = await this.usersRepository.find({
+        where: { userId: In(userIdsWithSameHobbies) },
+        relations: ['hobbies']
+      });
+  
       this.responseRepositories = {
         error: false,
         message: 'Users with same hobbies retrieved successfully',
-        data: usersWithSameHobbies,
+        data: completeUsersWithSameHobbies,
       };
     } catch (error: any) {
       console.error(error);
-
+  
       this.responseRepositories = {
         error: true,
         message: error.message,
@@ -89,7 +96,8 @@ export class UsersRepository {
       return this.responseRepositories;
     }
   }
-
+  
+  
   async signIn(signInUser: CreateUserDto): Promise<ResponseRepositories> {
     this.responseRepositories = new ResponseRepositories();
     try {

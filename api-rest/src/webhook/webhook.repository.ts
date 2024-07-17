@@ -25,12 +25,6 @@ private readonly mailerService: MailerService) {
       });
    }
 
-   async sendMailInvoice (data) {
-
-    const {user, email} = data
-    
-   
-   }
 
 
     async checkoutComplete(checkout){
@@ -82,6 +76,7 @@ private readonly mailerService: MailerService) {
             
             
         } catch (error) {
+           
             console.log(error);        
             
         }

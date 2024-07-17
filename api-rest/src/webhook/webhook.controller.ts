@@ -29,12 +29,6 @@ export class WebhookController {
   async index(){
   
   }
-
-  @Post('/mail')
-  async sendEmail( @Body() data) {
-    
-    return await this.webhookService.sendMailInvoice(data)
-  }
   
 
   @Post('/stripe')
