@@ -78,6 +78,10 @@ export class UsersEntity {
   ]'` })
   firstTimes: { first_perfil: boolean; first_feed: boolean; first_perfil_no: boolean; first_lista_chat: boolean; first_chat: boolean }[];
 
+  @Column({nullable: true})
+  image: string
+
+
   @Column({ default: false })
   isAdmin: boolean;
 
