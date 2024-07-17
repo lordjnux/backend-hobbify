@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { State } from 'src/entities/hobbies.entity';
 
 export class CreateHobbyDto {
   /**
@@ -41,6 +42,11 @@ export class UpdateHobbyDto {
   @IsString()
   @IsNotEmpty()
   emoji: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNotEmpty()
+  state:State
 }
 
 export class PartialHobbyDto {

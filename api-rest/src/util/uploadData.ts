@@ -48,12 +48,13 @@ export class UploadDataService implements OnApplicationBootstrap {
     );
   }
 
-  async addHobbies(hobbies: CreateHobbyDto[]): Promise<void> {
+  async addHobbies(hobbies): Promise<void> {
     await Promise.all(
       hobbies.map(async (hobbie) => {
         const hobbieEntity = new HobbiesEntity();
         hobbieEntity.name = hobbie.name;
         hobbieEntity.emoji = hobbie.emoji;
+        hobbieEntity.state = hobbie.state;
         const existingHobbie = await this.hobbiesRepository.findOneBy({
           name: hobbie.name,
         });

@@ -26,7 +26,7 @@ export class HobbiesRepository {
     const hobbieExisting = await this.hobbiesRepository.findOneBy({
       name: createHobbyDto.name,
     });
-    if (hobbieExisting) throw new BadRequestException('Hobbie Existing');
+    if (hobbieExisting) throw new BadRequestException('This hobby already exists');
 
     const newHobby = { ...createHobbyDto };
     return await this.hobbiesRepository.save(newHobby);
