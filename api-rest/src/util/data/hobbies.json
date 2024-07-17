@@ -1,22 +1,27 @@
 [
   {
     "name": "Read",
-    "emoji": "📖"
+    "emoji": "📖",
+    "state": "approved"
   },
   {
     "name": "Travel",
-    "emoji": "✈️"
+    "emoji": "✈️",
+    "state": "approved"
   },
   {
     "name": "Cooking",
-    "emoji": "🍳"
+    "emoji": "🍳",
+    "state": "approved"
   },
   {
     "name": "Music",
-    "emoji": "🎶"
+    "emoji": "🎶",
+    "state": "approved"
   },
   {
     "name": "Photography",
-    "emoji": "📸"
+    "emoji": "📸",
+    "state": "approved"
   }
 ]

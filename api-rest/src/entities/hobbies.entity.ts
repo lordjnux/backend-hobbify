@@ -2,7 +2,7 @@ import { UserMockEntity } from 'src/auth-own/usersMock';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UsersEntity } from './users.entity';
 
-enum State {
+export enum State {
   PENDING = "pending",
   APPROVED = "approved",
   DENIED = "denied"
