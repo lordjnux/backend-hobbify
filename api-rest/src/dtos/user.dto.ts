@@ -12,7 +12,6 @@ import {
   IsArray,
   ValidateNested,
   IsBoolean,
-  Length,
 } from 'class-validator';
 import { MatchPassword } from '../decorators/matchPassword.decorator';
 import { HobbiesEntity } from '../entities/hobbies.entity';
@@ -84,6 +83,21 @@ export class CreateUserDto {
   @IsOptional()
   @IsBoolean()
   isExternal: boolean;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  biography: string;
+
+  @ApiProperty({ example: 'Bogotá' })
+  @IsOptional()
+  @IsString()
+  idealMate: string; //Tu compañero ideal
+
+  @ApiProperty({ example: 'Bogotá' })
+  @IsOptional()
+  @IsString()
+  hobbyIntensity: string;
 }
 
 export class CreateAdminDto extends CreateUserDto {
@@ -256,6 +270,21 @@ export class UpdateUserDto {
   @ValidateNested({ each: true })
   @Type(() => HobbiesEntity)
   hobbies: HobbiesEntity[];
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  biography: string;
+
+  @ApiProperty({ example: 'Bogotá' })
+  @IsOptional()
+  @IsString()
+  idealMate: string; //Tu compañero ideal
+
+  @ApiProperty({ example: 'Bogotá' })
+  @IsOptional()
+  @IsString()
+  hobbyIntensity: string;
 }
 
 export class LoginExternalUserDto {

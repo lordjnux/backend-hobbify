@@ -200,6 +200,10 @@ export class UsersRepository {
           city: true,
           country: true,
           phone: true,
+          biography: true,
+          idealMate: true,
+          hobbyIntensity: true,
+          isAdmin: true,
         },
         where: { userId },
         relations: {
@@ -263,6 +267,9 @@ export class UsersRepository {
           phone: true,
           isAdmin: true,
           isBanned: true,
+          biography: true,
+          idealMate: true,
+          hobbyIntensity: true,
         },
         where: {
           email: credentials.email,
