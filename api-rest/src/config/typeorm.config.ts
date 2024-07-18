@@ -8,7 +8,7 @@ const config = {
   url: process.env.POSTGRESDB_URL,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
-  autoLoadEntities: false,
+  autoLoadEntities: true,
   logging: true,
   synchronize: true,
   dropSchema: true,

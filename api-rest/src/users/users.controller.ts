@@ -11,16 +11,20 @@ import {
 import { UsersService } from './users.service';
 import { BanUserDto, CreateAdminDto, UpdateUserDto } from '../dtos/user.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Roles } from 'src/roles/roles.decorator';
-import { Role } from 'src/roles/roles.enum';
-import { AuthGuard } from 'src/authzero/auth/auth.guard';
-import { RolesGuard } from 'src/roles/roles.guards';
-import { AddContactDto } from 'src/dtos/addContact.dto';
+import { Roles } from '../roles/roles.decorator';
+import { Role } from '../roles/roles.enum';
+import { AuthGuard } from '../authzero/auth/auth.guard';
+import { RolesGuard } from '../roles/roles.guards';
+import { AddContactDto, AddReactionDto } from 'src/dtos/addContact.dto';
+import { ChatService } from '../chat/chat.service';
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly chatService: ChatService,
+  ) {}
 
   @Get()
   @ApiBearerAuth()
@@ -29,7 +33,7 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
-  
+
   @Get('byhobbies/:id')
   @ApiBearerAuth()
   //@UseGuards(AuthGuard)
@@ -77,12 +81,18 @@ export class UsersController {
     summary: 'Agregar un contacto a un usuario',
     description: 'Agrega un contacto a un usuario en la base de datos',
   })
-  
   async addContact(@Body() addContact: AddContactDto) {
     const { idUser, idContact } = addContact;
     return this.usersService.addContact(idUser, idContact);
   }
 
-
-
+  @Post('reaction')
+  @ApiOperation({
+    summary: 'Agregar una reaction a un mensaje ene l chat',
+    description: 'Agregar una reaction a un mensaje ene l chat',
+  })
+  async addRaaction(@Body() addReaction: AddReactionDto) {
+    const { idMessage, reaction } = addReaction;
+    return this.chatService.addReaction(idMessage, reaction);
+  }
 }

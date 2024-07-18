@@ -28,4 +28,6 @@ export class Chat {
   @ManyToOne(() => UsersEntity, (user) => user.chats)
   to: UsersEntity;
 
+  @Column({ nullable: true })
+  reaction: string;
 }

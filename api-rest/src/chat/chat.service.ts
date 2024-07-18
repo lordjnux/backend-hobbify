@@ -1,5 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { AddMessageDto } from './dto/add-message.dto';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Chat } from './entities/chat.entity';
 import { Repository } from 'typeorm';
@@ -9,8 +12,24 @@ import { UsersEntity } from 'src/entities/users.entity';
 export class ChatService {
   constructor(
     @InjectRepository(Chat) private chatRepository: Repository<Chat>,
-    @InjectRepository(UsersEntity) private userRepository: Repository<UsersEntity>,
+    @InjectRepository(UsersEntity)
+    private userRepository: Repository<UsersEntity>,
   ) {}
+
+  async addReaction(idMessage: string, reaction: string) {
+    try {
+      const chat = await this.chatRepository.findOneBy({ id: idMessage });
+
+      if (!chat) throw new NotFoundException('Mensaje de chat no encontrado');
+
+      chat.reaction = reaction;
+
+      const chatReactionAdded = await this.chatRepository.save(chat);
+      return chatReactionAdded;
+    } catch (error: any) {
+      throw new InternalServerErrorException(error);
+    }
+  }
 
   async createMessage(
     userFrom: string,
@@ -20,7 +39,9 @@ export class ChatService {
     const userFromExists = await this.userRepository.findOneBy({
       userId: userFrom,
     });
-    const userToExists = await this.userRepository.findOneBy({ userId: userTo });
+    const userToExists = await this.userRepository.findOneBy({
+      userId: userTo,
+    });
     if (!userFromExists || !userToExists) {
       console.log('User does not exist');
       return;
@@ -68,13 +89,13 @@ export class ChatService {
   }
 
   async getConctacts(userFrom: string): Promise<UsersEntity[]> {
-      const user = await this.userRepository.findOne({
-        where: { userId: userFrom },
-        relations: ['contacts'],
-      });
-      console.log(user);
-      if (!user) return [];
-      if (!user.contacts) return [];
-      return user.contacts;   
+    const user = await this.userRepository.findOne({
+      where: { userId: userFrom },
+      relations: ['contacts'],
+    });
+    console.log(user);
+    if (!user) return [];
+    if (!user.contacts) return [];
+    return user.contacts;
   }
 }

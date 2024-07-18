@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsUUID } from 'class-validator';
+import { IsString, IsUUID } from 'class-validator';
 
 export class AddContactDto {
   @ApiProperty({
@@ -15,4 +15,16 @@ export class AddContactDto {
   })
   @IsUUID()
   idContact: string;
+}
+
+export class AddReactionDto {
+  @ApiProperty({
+    description: 'Id del mensaje',
+    example: 'fcbf7158-cae8-418b-963c-1fcb446c3f21',
+  })
+  @IsUUID()
+  idMessage: string;
+
+  @IsString()
+  reaction: string;
 }
