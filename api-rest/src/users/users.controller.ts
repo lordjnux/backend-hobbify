@@ -93,6 +93,6 @@ export class UsersController {
   })
   async addRaaction(@Body() addReaction: AddReactionDto) {
     const { idMessage, reaction } = addReaction;
-    return this.chatService.addReaction(idMessage, reaction);
+    return await this.chatService.addReaction(idMessage, reaction);
   }
 }
