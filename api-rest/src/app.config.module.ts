@@ -11,16 +11,16 @@ import { MongodbRepository } from './mongodb/mongodb.repository';
 import { MongodbController } from './mongodb/mongodb.controller';
 import { UsersModule } from './users/users.module';
 import { UsersEntity } from './entities/users.entity';
-import { ChatsEntity } from './entities/chats.entity';
+import { Chat } from './entities/chats.entity';
 import { PaymentsEntity } from './entities/payments.entity';
 import { SuscriptionEntity } from './entities/suscription.entity';
 import { FeaturesEntity } from './entities/features.entity';
 import { MongodbModule } from './mongodb/mongodb.module';
 import { HobbiesModule } from './hobbies/hobbies.module';
 import { StripeModule } from './stripe/stripe.module';
-import { SocketModule } from './socket/socket.module';
 import { UploadDataService } from './util/uploadData';
 import { HobbiesEntity } from './entities/hobbies.entity';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -46,7 +46,7 @@ import { HobbiesEntity } from './entities/hobbies.entity';
     }),
     TypeOrmModule.forFeature([
       UsersEntity,
-      ChatsEntity,
+      Chat,
       PaymentsEntity,
       SuscriptionEntity,
       FeaturesEntity,
@@ -57,7 +57,7 @@ import { HobbiesEntity } from './entities/hobbies.entity';
     MongodbModule,
     HobbiesModule,
     StripeModule,
-    SocketModule,
+    ChatModule,
   ],
   controllers: [MongodbController],
   providers: [MongodbService, MongodbRepository, UploadDataService],
