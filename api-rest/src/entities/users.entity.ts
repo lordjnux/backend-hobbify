@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ChatsEntity } from './chats.entity';
+import { Chat } from './chats.entity';
 import { PaymentsEntity } from './payments.entity';
 import { HobbiesEntity } from './hobbies.entity';
 
@@ -88,8 +88,12 @@ export class UsersEntity {
   @Column({ default: false })
   isBanned: boolean;
 
-  @OneToMany(() => ChatsEntity, (chat) => chat.user)
-  chats: ChatsEntity[];
+  @ManyToMany(() => UsersEntity)
+  @JoinTable()
+  contacts: UsersEntity[];
+
+  @OneToMany(() => Chat, (chat) => chat.from)
+  chats: Chat[];
 
   @OneToMany(() => PaymentsEntity, (payments) => payments.user)
   payments: PaymentsEntity[];

@@ -360,4 +360,35 @@ export class UsersRepository {
       return this.responseRepositories;
     }
   }
+
+  async addContact(userId: string, contactId: string) {
+    const user = await this.usersRepository.findOne({
+      where: { userId },
+      relations: ['contacts'],
+    });
+    if (!user) throw new NotFoundException('Usuario no encontrado');
+
+    const contact = await this.usersRepository.findOne({
+      where: { userId: contactId },
+    });
+    if (!contact) throw new NotFoundException('Contacto no encontrado');
+
+    const contacts = user.contacts.map((contact) => contact.userId);
+    if (!contacts.includes(contact.userId)) {
+      user.contacts.push(contact);
+      await this.usersRepository.save(user);
+    }
+
+    const userContact = await this.usersRepository.findOne({
+      where: { userId: contactId },
+      relations: ['contacts'],
+    });
+    const contactsContact = userContact.contacts.map((contact) => contact.userId);
+    if (!contactsContact.includes(user.userId)) {
+      userContact.contacts.push(user);
+      await this.usersRepository.save(userContact);
+      return user;
+    }
+    return 'Usuario ya tiene este contacto';
+  }
 }
