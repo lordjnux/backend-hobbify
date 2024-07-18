@@ -285,6 +285,14 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   hobbyIntensity: string;
+
+  @ApiProperty({
+    example:
+      'https://res.cloudinary.com/dicdljwxl/image/upload/v1721324015/i7ks2kiiiaclqvgevnvd.png',
+  })
+  @IsOptional()
+  @IsString()
+  profileImage: string;
 }
 
 export class LoginExternalUserDto {

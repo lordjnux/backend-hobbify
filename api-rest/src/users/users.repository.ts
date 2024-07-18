@@ -47,13 +47,13 @@ export class UsersRepository {
         where: { userId },
         relations: ['hobbies'],
       });
-  
+
       if (!user) {
         throw new NotFoundException(`User(${userId}) not found.`);
       }
-  
+
       const userHobbies = user.hobbies.map((hobbie) => hobbie.hobbieId);
-  
+
       if (userHobbies.length === 0) {
         this.responseRepositories = {
           error: false,
@@ -62,7 +62,7 @@ export class UsersRepository {
         };
         return this.responseRepositories;
       }
-  
+
       const isBanned = false;
       const usersWithSameHobbies = await this.usersRepository
         .createQueryBuilder('user')
@@ -71,14 +71,14 @@ export class UsersRepository {
         .andWhere('user.isBanned = :isBanned', { isBanned })
         .andWhere('user.userId != :userId', { userId })
         .getMany();
-  
-      const userIdsWithSameHobbies = usersWithSameHobbies.map(u => u.userId);
-  
+
+      const userIdsWithSameHobbies = usersWithSameHobbies.map((u) => u.userId);
+
       const completeUsersWithSameHobbies = await this.usersRepository.find({
         where: { userId: In(userIdsWithSameHobbies) },
-        relations: ['hobbies']
+        relations: ['hobbies'],
       });
-  
+
       this.responseRepositories = {
         error: false,
         message: 'Users with same hobbies retrieved successfully',
@@ -86,7 +86,7 @@ export class UsersRepository {
       };
     } catch (error: any) {
       console.error(error);
-  
+
       this.responseRepositories = {
         error: true,
         message: error.message,
@@ -96,8 +96,7 @@ export class UsersRepository {
       return this.responseRepositories;
     }
   }
-  
-  
+
   async signIn(signInUser: CreateUserDto): Promise<ResponseRepositories> {
     this.responseRepositories = new ResponseRepositories();
     try {
@@ -212,6 +211,7 @@ export class UsersRepository {
           idealMate: true,
           hobbyIntensity: true,
           isAdmin: true,
+          profileImage: true,
         },
         where: { userId },
         relations: {
@@ -278,6 +278,7 @@ export class UsersRepository {
           biography: true,
           idealMate: true,
           hobbyIntensity: true,
+          profileImage: true,
         },
         where: {
           email: credentials.email,
@@ -383,7 +384,9 @@ export class UsersRepository {
       where: { userId: contactId },
       relations: ['contacts'],
     });
-    const contactsContact = userContact.contacts.map((contact) => contact.userId);
+    const contactsContact = userContact.contacts.map(
+      (contact) => contact.userId,
+    );
     if (!contactsContact.includes(user.userId)) {
       userContact.contacts.push(user);
       await this.usersRepository.save(userContact);
