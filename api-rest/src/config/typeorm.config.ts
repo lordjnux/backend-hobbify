@@ -9,8 +9,8 @@ const config = {
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
   autoLoadEntities: true,
-  logging: true,
-  synchronize: true,
+  logging: false,
+  synchronize: false,
   dropSchema: false,
   ssl: {
     rejectUnauthorized: false,
